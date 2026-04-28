@@ -1,4 +1,4 @@
-* sorting column values in R, Python in descending order (Z-A)
+* sorting column values in R, Python, MySQL in descending order (Z-A)
 
 # Question
 
@@ -39,4 +39,16 @@ company_financials.head()
 df = company_financials.loc[ company_financials['fiscal_year'] == max(company_financials['fiscal_year']) ,:]
 df['taxes_owed'] = df['taxable_income'] * df['tax_rate']
 df.loc[:, ['company_name', 'fiscal_year', 'taxes_owed'] ].sort_values(by= 'taxes_owed', ascending=False)
+```
+MySQL
+
+```
+SELECT company_name, 
+  fiscal_year, 
+  (taxable_income * tax_rate) AS taxes_owed
+FROM company_financials
+WHERE fiscal_year = 
+  (SELECT MAX(fiscal_year)
+  FROM company_financials)
+ORDER BY taxes_owed DESC;
 ```
