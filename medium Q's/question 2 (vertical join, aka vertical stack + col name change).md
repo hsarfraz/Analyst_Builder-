@@ -48,5 +48,20 @@ pd.concat([domestic_flights, international_flights]).sort_values(by='flight_id',
 # MySQL
 
 ```
+SELECT *
+FROM ( 
+SELECT flight_number AS flight_id,
+  carrier AS airline,
+  origin_city AS departure_city,
+  destination_city AS arrival_city,
+  passenger_total AS passenger_count
+FROM international_flights
+WHERE international_zone = 'Zone A'
 
+UNION ALL
+
+SELECT *
+FROM domestic_flights
+  ) AS vertical_join
+ORDER BY flight_id ASC
 ```
