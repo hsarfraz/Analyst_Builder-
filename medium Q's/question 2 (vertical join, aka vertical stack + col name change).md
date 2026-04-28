@@ -30,7 +30,19 @@ arrange(flight_id)
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd;
 
+domestic_flights.head()
+
+international_flights = international_flights.loc[ international_flights['international_zone'] == 'Zone A' , ['flight_number', 'carrier', 'origin_city', 'destination_city', 'passenger_total']]
+international_flights = international_flights.rename(columns = {'flight_number' : 'flight_id',
+                                       'carrier' : 'airline',
+                                       'origin_city' : 'departure_city',
+                                       'destination_city' : 'arrival_city',
+                                       'passenger_total' : 'passenger_count'})
+
+pd.concat([domestic_flights, international_flights]).sort_values(by='flight_id', ascending = True)
 ```
 
 # MySQL
