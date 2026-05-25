@@ -1,5 +1,26 @@
 # Foundational-Data-Analytics-Techniques
 
+Order of writing SQL queries
+
+Select
+From
+Join
+Where
+Group By
+Having
+Order By
+Limit
+
+SQL order of execution
+
+1. From & Join
+2. Where
+3. Group By
+4. Having
+5. Select
+6. Order By
+7. Limit
+
 ```
 # reading a .csv file
 library(readr) #library needed
