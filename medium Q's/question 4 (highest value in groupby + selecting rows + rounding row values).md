@@ -52,3 +52,16 @@ WHERE year = (
 ORDER BY national_debt DESC
 LIMIT 3;
 ```
+
+# MSSQL
+
+```
+SELECT TOP 3 country, 
+  ROUND(CAST(national_debt AS Numeric),0) as national_debt
+FROM global_debts AS main
+WHERE year = (
+  SELECT MAX(year) 
+  FROM global_debts AS sub
+  WHERE main.country = sub.country)
+ORDER BY national_debt DESC;
+```
