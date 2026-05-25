@@ -27,7 +27,16 @@ head(3)
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd;
 
+global_debts.head()
+
+# ['year'] says to get the max year only
+# .idxmax() gets the index of each country with the highest year
+max_year = global_debts.groupby('country')['year'].idxmax() 
+
+global_debts.loc[max_year, ['country', 'national_debt']].round({'national_debt':0}).sort_values(by='national_debt', ascending=False).head(3)
 ```
 
 # MySQL
