@@ -3,6 +3,7 @@
 # R
 
 ```
+library(dplyr)
 heights %>%
 filter(average_height > mean(average_height)) %>%
 arrange(desc(average_height))
@@ -11,6 +12,7 @@ arrange(desc(average_height))
 # Python
 
 ```
+import pandas as pd
 avg_height_mean = heights['average_height'].mean()
 
 heights.loc[ (heights['average_height'] > avg_height_mean) , :].sort_values(by="average_height", ascending=False)
