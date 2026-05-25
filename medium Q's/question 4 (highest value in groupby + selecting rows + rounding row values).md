@@ -42,10 +42,13 @@ global_debts.loc[max_year, ['country', 'national_debt']].round({'national_debt':
 # MySQL
 
 ```
-SELECT country, 
+SELECT country,
   ROUND(national_debt) AS national_debt
-FROM global_debts
-WHERE year in (SELECT MAX(year) FROM global_debts GROUP BY country)
+FROM global_debts as main
+WHERE year = (
+  SELECT MAX(year) 
+  FROM global_debts as sub 
+  WHERE main.country = sub.country)
 ORDER BY national_debt DESC
 LIMIT 3;
 ```
