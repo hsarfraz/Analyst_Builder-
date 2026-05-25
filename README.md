@@ -2,14 +2,7 @@
 
 Order of writing SQL queries
 
-Select
-From
-Join
-Where
-Group By
-Having
-Order By
-Limit
+Select, From, Join, Where, Group By, Having, Order By, Limit
 
 SQL order of execution
 
