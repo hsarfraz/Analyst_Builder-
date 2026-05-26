@@ -51,3 +51,32 @@ SELECT product_name,
 FROM products 
 ORDER BY product_name;
 ```
+
+# PostgresSQL
+
+```
+SELECT product_name,
+  ROUND(((new_size::numeric - original_size::numeric)/original_size::numeric) * 100) AS size_change_percentage,
+  ROUND(((new_price::numeric - original_price::numeric)/original_price::numeric) * 100) AS price_change_percentage,
+  CASE
+   WHEN (original_size > new_size) AND (original_price <= new_price) 
+   THEN 'True' 
+   ELSE 'False'
+  END AS shrinkflation_flag 
+FROM products 
+ORDER BY product_name;
+```
+
+# MSSQL
+
+```
+SELECT product_name,
+  ROUND(((CAST(new_size AS FLOAT) - CAST(original_size AS FLOAT))/CAST(original_size AS FLOAT)) * 100,0) AS size_change_percentage,
+  ROUND(((CAST(new_price AS FLOAT) - CAST(original_price AS FLOAT))/CAST(original_price AS FLOAT)) * 100,0) AS price_change_percentage,
+    CASE 
+      WHEN original_size > new_size AND original_price <= new_price THEN 'True'
+      ELSE 'False'
+  END AS shrinkflation_flag  
+FROM products 
+ORDER BY product_name;
+```
