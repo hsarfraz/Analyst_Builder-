@@ -44,5 +44,10 @@ products.loc[:,['product_name', 'size_change_percentage', 'price_change_percenta
 # MySQL
 
 ```
-
+SELECT product_name,
+  ROUND(((new_size - original_size)/original_size) * 100) AS size_change_percentage,
+  ROUND(((new_price - original_price)/original_price) * 100) AS price_change_percentage,
+  IF((original_size > new_size) & (original_price <= new_price), 'True', 'False') AS shrinkflation_flag 
+FROM products 
+ORDER BY product_name;
 ```
