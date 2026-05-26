@@ -41,8 +41,12 @@ pd.DataFrame(
 # MySQL
 
 ```
-SELECT *
-FROM heights
-WHERE average_height > (SELECT AVG(average_height) FROM heights)
-ORDER BY average_height DESC
+SELECT
+  ROUND(
+  (
+  ((SUM(CASE WHEN year = 2023 THEN calculator_sales ELSE 0 END)) - 
+  SUM(CASE WHEN year = 2000 THEN calculator_sales ELSE 0 END)) /
+  (SUM(CASE WHEN year = 2000 THEN calculator_sales ELSE 0 END))
+  ) * 100, 2) AS percent_growth
+FROM calculators;
 ```
