@@ -50,7 +50,36 @@ SELECT
   SUM(profit) AS total_profit
 FROM profits
 WHERE (STR_TO_DATE(date, '%Y-%m-%d') < "2024-07-01") AND (STR_TO_DATE(date, '%Y-%m-%d') >= "2024-01-01")
-GROUP BY month 
+GROUP BY CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(date, '-', 2), '-', -1) AS INT) 
 HAVING (SUM(profit)) > 0
 ORDER BY total_profit DESC
+  LIMIT 10;
+```
+
+# PostgresSQL
+
+important to note that I didn't need to convert the date column to a datetype column since the date format was in 2024-01-01 and postgresSQL already converts dates with dashes to a date
+
+```
+SELECT
+  EXTRACT(MONTH FROM date::date)::int AS month,
+  SUM(profit) AS total_profits
+FROM profits
+WHERE date < '2024-07-01' AND date >= '2024-01-01'
+GROUP BY EXTRACT(MONTH FROM date::date)::int
+HAVING SUM(profit) > 0
+ORDER BY total_profits DESC;
+```
+
+# MSSQL
+
+```
+SELECT
+  MONTH(CAST(date AS date)) AS month,
+  SUM(profit) AS total_profits
+FROM profits
+WHERE date < '2024-07-01' AND date >= '2024-01-01'
+GROUP BY MONTH(CAST(date AS date))
+HAVING SUM(profit) > 0
+ORDER BY total_profits DESC;
 ```
