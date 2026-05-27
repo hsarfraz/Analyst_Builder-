@@ -1,4 +1,4 @@
-# question
+# question [link](https://www.analystbuilder.com/questions/multi-level-marketing-VXWrg)
 
 # R
 
@@ -45,5 +45,12 @@ profits.loc[(profits['profit'] > 0),:].sort_values(by='profit', ascending = Fals
 # MySQL
 
 ```
-
+SELECT 
+  CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(date, '-', 2), '-', -1) AS INT) AS month,
+  SUM(profit) AS total_profit
+FROM profits
+WHERE (STR_TO_DATE(date, '%Y-%m-%d') < "2024-07-01") AND (STR_TO_DATE(date, '%Y-%m-%d') >= "2024-01-01")
+GROUP BY month 
+HAVING (SUM(profit)) > 0
+ORDER BY total_profit DESC
 ```
