@@ -30,7 +30,16 @@ arrange(desc(profit))
 # python
 
 ```
+import pandas as pd;
 
+profits.head()
+
+profits['date_convert'] = pd.to_datetime(profits['date'], format='%m/%d/%Y')
+profits[['month', 'day', 'year']] = profits['date'].str.split('/', expand=True)
+profits['month'] = pd.to_numeric(profits['month'])
+profits = profits.loc[ (profits['date_convert'] < "2024-07-01") & (profits['date_convert'] >= "2024-01-01") ,:]
+profits = profits.groupby('month')['profit'].sum().reset_index()
+profits.loc[(profits['profit'] > 0),:].sort_values(by='profit', ascending = False)
 ```
 
 # MySQL
