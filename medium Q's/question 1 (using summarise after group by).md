@@ -48,3 +48,23 @@ FROM help_desk
 GROUP BY employee_name
 ORDER BY employee_name ASC;
 ```
+
+PostgresSQL
+
+```
+SELECT employee_name,
+  (SUM(CASE WHEN call_outcome == 'Y' THEN 1 ELSE 0 END)::float/COUNT(*))*100 AS call_proportion
+FROM help_desk
+GROUP BY employee_name
+ORDER BY employee_name ASC;
+```
+
+MSSQL
+
+```
+SELECT employee_name,
+  (CAST(SUM(CASE WHEN call_outcome == 'Y' THEN 1 ELSE 0 END) AS FLOAT)/CAST(COUNT(*) AS FLOAT))*100 AS call_proportion
+FROM help_desk
+GROUP BY employee_name
+ORDER BY employee_name ASC;
+```
