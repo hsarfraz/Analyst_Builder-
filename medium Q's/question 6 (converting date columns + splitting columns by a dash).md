@@ -71,14 +71,6 @@ HAVING SUM(profit) > 0
 ORDER BY total_profits DESC;
 ```
 
-would like to include the snippet below in situations where you are not dealing with dates and can't just simply specify a month to be extracted
-
-```
-SELECT customer_id, name, email
-FROM gmail_users
-WHERE email LIKE '%@gmail.com'
-ORDER BY customer_id ASC;
-```
 
 # MSSQL
 
@@ -91,13 +83,4 @@ WHERE date < '2024-07-01' AND date >= '2024-01-01'
 GROUP BY MONTH(CAST(date AS date))
 HAVING SUM(profit) > 0
 ORDER BY total_profits DESC;
-```
-
-would like to include the snippet below in situations where you are not dealing with dates and can't just simply specify a month to be extracted
-
-```
-SELECT customer_id, name, email
-FROM gmail_users
-WHERE email LIKE '%@gmail.com'
-ORDER BY customer_id ASC;
 ```
