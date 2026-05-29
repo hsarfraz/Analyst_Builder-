@@ -39,7 +39,7 @@ help_desk['call_outcome'] = np.where(help_desk['call_outcome'] ==  'Y', 1, 0)
 (help_desk.groupby('employee_name')['call_outcome'].mean() * 100).reset_index().sort_values(by='employee_name', ascending=True)
 ```
 
-MySQL
+# MySQL
 
 ```
 SELECT employee_name,
@@ -49,7 +49,19 @@ GROUP BY employee_name
 ORDER BY employee_name ASC;
 ```
 
-PostgresSQL
+Here is a scenario when you need to include multiple ifelse statements
+
+```
+SELECT 
+  (CASE 
+  WHEN response = 'Yes' THEN 'Y'
+  WHEN response = 'No' THEN 'N'
+  ELSE response
+  END) AS response
+FROM responses;
+```
+
+# PostgresSQL
 
 ```
 SELECT employee_name,
@@ -59,7 +71,7 @@ GROUP BY employee_name
 ORDER BY employee_name ASC;
 ```
 
-MSSQL
+# MSSQL
 
 ```
 SELECT employee_name,
