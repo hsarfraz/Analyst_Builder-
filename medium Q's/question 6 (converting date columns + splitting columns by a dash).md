@@ -71,6 +71,13 @@ HAVING SUM(profit) > 0
 ORDER BY total_profits DESC;
 ```
 
+spliting columns when there is no date
+
+```
+SELECT customer_id,
+  SPLIT_PART(full_name, ' ', 1) AS first_name
+FROM customers;
+```
 
 # MSSQL
 
@@ -83,4 +90,14 @@ WHERE date < '2024-07-01' AND date >= '2024-01-01'
 GROUP BY MONTH(CAST(date AS date))
 HAVING SUM(profit) > 0
 ORDER BY total_profits DESC;
+```
+
+spliting columns when there is no date
+
+CHARINDEX(' ', full_name + ' '): Finds the exact position of the first space. Appending an extra ' ' (space) ensures the function doesn't fail if the full_name only has a single word and no spaces.LEFT(full_name, ... - 1): Extracts all characters in full_name to the left of that space.
+
+```
+SELECT customer_id,
+  LEFT(full_name, CHARINDEX(' ', full_name + ' ') - 1) AS first_name
+FROM customers;
 ```
