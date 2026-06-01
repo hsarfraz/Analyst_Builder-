@@ -5,18 +5,22 @@
 ```
 # You can load libraries like dplyr if needed
 library(dplyr)
+library(stringr)
 
 # access your data
-head(medication_information)
+head(direct_reports)
 
-head(med_list)
+#the first step is to create a dataframe with the employee id's of the managers
+manager_eomployee_id_df <- direct_reports %>%
+filter(str_detect(position, 'Manager')) %>%
+rename(employee_id_of_manager = employee_id) %>%
+select(employee_id_of_manager, position)
+manager_eomployee_id_df
 
-med_list <- med_list %>% 
-  rename(medication = medication_name,
-         rec_dosage = recommended_dosage)
-bind_rows(medication_information, med_list) %>%
-select(medication, rec_dosage) %>%
-arrange(medication)
+#you can use either a left or right join, but just keep in mind the order of the dfs
+left_join(manager_eomployee_id_df, direct_reports, by = c("employee_id_of_manager" = "managers_id")) %>%
+group_by(employee_id_of_manager, position.x) %>%
+summarise(count = n())
 ```
 
 # Python
