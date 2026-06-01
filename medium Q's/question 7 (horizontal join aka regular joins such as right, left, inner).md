@@ -46,13 +46,16 @@ pd.merge(
 # MySQL
 
 ```
-(SELECT medication, rec_dosage
-FROM medication_information)
-UNION ALL
-(SELECT 
-  medication_name AS medication,
-  recommended_dosage AS rec_dosage
-FROM med_list)
+WITH df_of_manager_employee_id AS( 
+  SELECT position,
+  employee_id AS managers_employee_id
+FROM direct_reports
+WHERE position LIKE '%Manager%')
 
-ORDER BY medication ASC
+SELECT df.managers_employee_id, df.position,
+  COUNT(*) AS COUNT
+FROM df_of_manager_employee_id df
+LEFT JOIN direct_reports dr 
+  ON  df.managers_employee_id = dr.managers_id 
+GROUP BY df.managers_employee_id, df.position;
 ```
