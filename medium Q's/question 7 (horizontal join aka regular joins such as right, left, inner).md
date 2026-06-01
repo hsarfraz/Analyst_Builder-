@@ -26,13 +26,21 @@ summarise(count = n())
 # Python
 
 ```
-import pandas as pd;
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np
 
-medication_information.head()
+direct_reports.head()
 
-med_list = med_list.rename(columns={"medication_name": "medication", 'recommended_dosage':'rec_dosage'})
-df = pd.concat([medication_information, med_list], axis=0) #sxis=0 tells python to do a vertical stack
-df.loc[:,['medication', 'rec_dosage']].sort_values(by='medication', ascending=True)
+direct_reports['manager_position'] = np.where(direct_reports['position'].str.contains('Manager') == True, 1, 0)
+df_of_manager_employee_id = direct_reports.loc[direct_reports['manager_position'] == 1, ['employee_id', 'position']].rename(columns = {'employee_id' : 'employee_id_of_manager'})
+pd.merge(
+  df_of_manager_employee_id,
+  direct_reports,
+  how='left',
+  left_on='employee_id_of_manager',
+  right_on='managers_id'
+).groupby(['employee_id_of_manager', 'position_x'])['employee_id'].count().reset_index()
 ```
 
 # MySQL
