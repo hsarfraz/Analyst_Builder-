@@ -39,6 +39,21 @@ help_desk['call_outcome'] = np.where(help_desk['call_outcome'] ==  'Y', 1, 0)
 (help_desk.groupby('employee_name')['call_outcome'].mean() * 100).reset_index().sort_values(by='employee_name', ascending=True)
 ```
 
+when you want to use multiple functions in a group by
+
+```
+# access datasets as pandas dataframes
+import pandas as pd;
+
+purchases.head()
+
+df = purchases.groupby('customer_id').agg(
+  order_count = ('customer_id' , 'size'),
+  order_sum = ('order_total' , 'sum')).reset_index()
+
+df.loc[ (df['order_count'] <= 2) | (df['order_sum'] < 250) , ['customer_id'] 
+```
+
 # MySQL
 
 ```
