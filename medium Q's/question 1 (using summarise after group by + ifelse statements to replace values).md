@@ -25,6 +25,22 @@ group_by(employee_name) %>%
 summarise(percentage = mean(call_outcome) * 100) %>%
 arrange(employee_name)
 ```
+If you need to remove NA values in the summarise function calculations
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+
+# access your data
+head(restaurant_reviews)
+
+restaurant_reviews %>%
+group_by(restaurant) %>%
+summarise(comment_count = sum(!is.na(comment) & comment != ""),
+          avg_rating = mean(rating, na.rm=TRUE)) %>%
+arrange(desc(comment_count), desc(avg_rating)) %>%
+head(1)
+```
 
 # Python
 
