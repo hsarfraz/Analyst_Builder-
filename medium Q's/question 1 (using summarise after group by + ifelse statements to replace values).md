@@ -42,6 +42,11 @@ help_desk['call_outcome'] = np.where(help_desk['call_outcome'] ==  'Y', 1, 0)
 when you want to use multiple functions in a group by
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd;
+
+restaurant_reviews.head()
+
 restaurant_reviews['not_null_comment'] = (restaurant_reviews['comment'].notna()) & (restaurant_reviews['comment'].notna() != '')
 
 restaurant_reviews.groupby('restaurant').agg(
