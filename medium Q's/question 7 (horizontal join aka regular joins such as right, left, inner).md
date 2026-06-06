@@ -59,3 +59,35 @@ LEFT JOIN direct_reports dr
   ON  df.managers_employee_id = dr.managers_id 
 GROUP BY df.managers_employee_id, df.position;
 ```
+
+a horizontal join with many dataframes
+
+```
+WITH customers_df AS (
+  SELECT *
+  FROM customers
+),
+
+movienames_df AS (
+  SELECT *
+  FROM movienames
+),
+
+movie_counts_per_customer AS (SELECT c.name,
+  mn.movie_name,
+  COUNT(*) AS total_movie_watches
+FROM date_viewed dv
+LEFT JOIN customers_df c
+  ON dv.customer_id = c.customer_id
+LEFT JOIN movienames_df mn 
+  ON dv.movie_id = mn.movie_id
+GROUP BY c.name, mn.movie_name)
+
+SELECT name
+FROM movie_counts_per_customer
+GROUP BY name
+ORDER BY SUM(total_movie_watches) DESC
+LIMIT 1
+;
+
+```
