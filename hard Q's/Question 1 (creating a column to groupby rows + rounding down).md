@@ -23,7 +23,16 @@ df %>% select(four_week_total_avg) %>% head(1)
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
 
+shop_custs.head()
+
+shop_custs['groups'] = (shop_custs['week'] - 1) // 4
+
+df = shop_custs.groupby('groups')['customers'].sum().reset_index()
+df['average'] = df['customers'].mean()
+df.loc[:,['average']].head(1)
 ```
 
 # MySQL
