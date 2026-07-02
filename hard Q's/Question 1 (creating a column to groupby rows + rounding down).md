@@ -38,5 +38,11 @@ df.loc[:,['average']].head(1)
 # MySQL
 
 ```
+WITH df AS(SELECT 
+  SUM(customers) AS total
+FROM shop_custs
+GROUP BY FLOOR((week - 1) / 4))
 
+SELECT AVG(total) AS average
+FROM df
 ```
