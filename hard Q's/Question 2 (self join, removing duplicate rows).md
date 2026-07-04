@@ -54,5 +54,25 @@ df_merge.groupby(['recruiter_a','recruiter_b'])['client_id'].count().reset_index
 # MySQL
 
 ```
-
+WITH dataframe_to_merge AS (
+  SELECT client_id, recruiter_name
+  FROM client_assignments
+),
+  final_df AS (
+  SELECT DISTINCT 
+  df1.client_id,
+  CASE WHEN df1.recruiter_name > df2.recruiter_name 
+  THEN df2.recruiter_name ELSE df1.recruiter_name END AS recruiter_a,
+  CASE WHEN df1.recruiter_name > df2.recruiter_name 
+  THEN df1.recruiter_name ELSE df2.recruiter_name END AS recruiter_b
+FROM client_assignments df1
+LEFT JOIN dataframe_to_merge df2
+  ON df1.client_id = df2.client_id 
+WHERE (df1.recruiter_name != df2.recruiter_name)
+  )
+  
+SELECT recruiter_a, recruiter_b, COUNT(*) AS common_clients
+FROM final_df
+GROUP BY recruiter_a, recruiter_B
+ORDER BY common_clients DESC, recruiter_a ASC, recruiter_B ASC ;
 ```
