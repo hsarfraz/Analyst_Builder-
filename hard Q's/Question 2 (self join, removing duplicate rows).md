@@ -27,7 +27,28 @@ arrange(desc(count), recruiter_a, recruiter_b)
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np
 
+client_assignments.head()
+
+df = client_assignments.drop(columns=['assignment_date'])
+
+df_merge = pd.merge(
+  df,
+  df,
+  how='left',
+  left_on='client_id',
+  right_on='client_id'
+)
+
+df_merge = df_merge.loc[ (df_merge['recruiter_name_x'] != df_merge['recruiter_name_y']) ,:]
+df_merge['recruiter_a'] = np.where(df_merge['recruiter_name_x'] > df_merge['recruiter_name_y'], df_merge['recruiter_name_y'], df_merge['recruiter_name_x'])
+df_merge['recruiter_b'] = np.where(df_merge['recruiter_name_x'] > df_merge['recruiter_name_y'], df_merge['recruiter_name_x'], df_merge['recruiter_name_y'])
+
+df_merge = df_merge.drop_duplicates(subset=['client_id', 'recruiter_a', 'recruiter_b'])
+df_merge.groupby(['recruiter_a','recruiter_b'])['client_id'].count().reset_index().sort_values(by=['client_id','recruiter_a', 'recruiter_b'], ascending=[False, True, True])
 ```
 
 # MySQL
