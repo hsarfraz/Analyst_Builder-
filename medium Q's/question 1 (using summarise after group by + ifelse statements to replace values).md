@@ -66,6 +66,7 @@ restaurant_reviews.head()
 restaurant_reviews['not_null_comment'] = (restaurant_reviews['comment'].notna()) & (restaurant_reviews['comment'].notna() != '')
 
 restaurant_reviews.groupby('restaurant').agg(
+total_patients = ('patient_id' , 'size'), 
   comment_count = ('not_null_comment' , 'sum'),
 rating_mean = ('rating' , 'mean')
 ).reset_index().sort_values(by=['comment_count', 'rating_mean'], ascending = [False, False]).head(1)
