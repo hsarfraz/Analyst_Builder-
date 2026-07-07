@@ -62,6 +62,22 @@ sales_records.loc[:,['sale_date_format', 'store_id', 'running_average']]
 
 # MySQL
 
-```
+**Note**: PARTITION is not a part of the SFJWGHOL SQL coding order of operations. PARTITION is like group by except it doesn't collapse rows 
 
+```
+WITH df AS (SELECT *,
+ ROW_NUMBER() OVER (
+  PARTITION BY store_id
+  ORDER BY STR_TO_DATE(sale_date, '%Y-%m-%d')
+ ) AS row_num,
+ SUM(daily_sales) OVER (
+  PARTITION BY store_id
+  ORDER BY STR_TO_DATE(sale_date, '%Y-%m-%d')
+ ) AS cumulative_sum
+FROM sales_records)
+
+SELECT sale_date, 
+  store_id, 
+  cumulative_sum/row_num AS running_average
+FROM df
 ```
