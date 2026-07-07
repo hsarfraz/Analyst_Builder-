@@ -25,7 +25,21 @@ Example:
 # R
 
 ```
+# You can load libraries like dplyr if needed
+library(dplyr)
 
+# access your data
+head(sales_records)
+
+sales_records$sale_date_format <- as.Date(sales_records$sale_date, format='%Y-%m-%d')
+
+sales_records %>%
+group_by(store_id) %>%
+arrange(store_id, sale_date_format) %>%
+mutate(row_num = row_number(),
+       cumulative_sum = cumsum(daily_sales),
+       running_average = cumulative_sum/row_num) %>%
+select(sale_date, store_id, running_average)
 ```
 
 # Python
