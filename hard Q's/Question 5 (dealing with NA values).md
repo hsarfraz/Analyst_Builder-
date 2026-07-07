@@ -54,5 +54,6 @@ SELECT
   AVG(sale_amount) AS average_excluding_nulls,
   AVG(sale_amount_zero) AS average_including_nulls,
   AVG(sale_amount_min) AS average_including_min
+FROM df
 ```
 
