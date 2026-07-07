@@ -45,7 +45,19 @@ select(sale_date, store_id, running_average)
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd;
 
+sales_records.head()
+sales_records['sale_date_format'] = pd.to_datetime(sales_records['sale_date'], format = '%Y-%m-%d')
+
+sales_records['row_num'] = (sales_records.sort_values(by=['store_id', 'sale_date_format'], ascending = [True, True]).groupby('store_id').cumcount()+1)
+
+sales_records['cumulative_sum'] = (sales_records.sort_values(by=['store_id', 'sale_date_format'], ascending = [True, True]).groupby('store_id')['daily_sales'].cumsum())
+
+sales_records['running_average'] = (sales_records['cumulative_sum']/sales_records['row_num'])
+
+sales_records.loc[:,['sale_date_format', 'store_id', 'running_average']]
 ```
 
 # MySQL
