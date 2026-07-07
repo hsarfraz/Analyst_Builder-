@@ -21,7 +21,23 @@ head(1)
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np
 
+missing_values.head()
+
+missing_values['average_excluding_nulls'] = missing_values['sale_amount'].mean()
+
+missing_values['sale_amount_zero'] = np.where(missing_values['sale_amount'].isna(), 0 , missing_values['sale_amount'])
+
+missing_values['sale_amount_min'] = np.where(missing_values['sale_amount'].isna(), min(missing_values['sale_amount']), missing_values['sale_amount'])
+
+missing_values['average_including_nulls'] = missing_values['sale_amount_zero'].mean()
+
+missing_values['average_excluding_min'] = missing_values['sale_amount_min'].mean()
+
+missing_values.loc[:,['average_excluding_nulls', 'average_including_nulls', 'average_excluding_min']].head(1)
 ```
 
 # MySQL
