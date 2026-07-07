@@ -1,3 +1,7 @@
+# What is percent rank?
+
+Percent rank basically gets the column and orders the values from smallest to largest. It then assigns a number from 1 to a number as a rank and then it calculates the percentage/rank of each row value relative to the other values in the column
+
 # R
 
 ```
