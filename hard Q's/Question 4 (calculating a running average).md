@@ -6,6 +6,22 @@ $$
 Running Average = Running Sum / Running Count
 $$
 
+Example:
+
+| Sales Date | Daily Sales |
+| -------- | -------- | 
+| Jan 1  | 100  | 
+| Jan 2  | 200  | 
+| Jan 3  | 300  | 
+| Jan 4  | 400  | 
+
+| Sales Date | Running Average |
+| -------- | -------- | 
+| Jan 1  | 100/1 = 100  | 
+| Jan 2  | (100 + 200)/2 = 150  | 
+| Jan 3  | (100 + 200 + 300)/3 = 200  | 
+| Jan 4  | (100 + 200 + 300 + 400)/4 = 250  | 
+
 # R
 
 ```
