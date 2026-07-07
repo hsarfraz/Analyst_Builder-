@@ -43,6 +43,16 @@ missing_values.loc[:,['average_excluding_nulls', 'average_including_nulls', 'ave
 # MySQL
 
 ```
+WITH df AS(SELECT *,
+  CASE WHEN (sale_amount is NULL) THEN 0 ELSE sale_amount END AS sale_amount_zero,
+  CASE WHEN (sale_amount IS NULL) THEN 
+  (SELECT MIN(sale_amount) FROM missing_values)
+  ELSE sale_amount END AS sale_amount_min
+FROM missing_values)
 
+SELECT
+  AVG(sale_amount) AS average_excluding_nulls,
+  AVG(sale_amount_zero) AS average_including_nulls,
+  AVG(sale_amount_min) AS average_including_min
 ```
 
