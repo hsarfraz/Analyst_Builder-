@@ -42,5 +42,40 @@ isp_outages.groupby('isp_name').agg(
 # MySQL
 
 ```
+SELECT isp_name,
+ AVG(TIMESTAMPDIFF(MINUTE,
+  STR_TO_DATE(start_time, '%m/%d/%Y %H:%i'),
+  STR_TO_DATE(end_time, '%m/%d/%Y %H:%i')
+  )) AS average_outage_duration,
+  SUM(CASE WHEN end_time IS NULL THEN 1 ELSE 0 END) AS ongoing_outages
+FROM isp_outages
+GROUP BY isp_name
+ORDER BY average_outage_duration DESC;
+```
+
+# PostgresSQL
 
 ```
+SELECT isp_name,
+ AVG(
+  EXTRACT( EPOCH from (end_time::timestamp - start_time::timestamp)) / 60
+  ) AS average_outage_duration,
+  SUM(CASE WHEN end_time IS NULL THEN 1 ELSE 0 END) AS ongoing_outages
+FROM isp_outages
+GROUP BY isp_name
+ORDER BY average_outage_duration DESC;
+```
+
+# MSSQL
+
+```
+SELECT isp_name,
+ AVG(
+  DATEDIFF( MINUTE, CAST(start_time AS DATETIME), CAST(end_time AS DATETIME) )
+  ) AS average_outage_duration,
+  SUM(CASE WHEN end_time IS NULL THEN 1 ELSE 0 END) AS ongoing_outages
+FROM isp_outages
+GROUP BY isp_name
+ORDER BY average_outage_duration DESC;
+```
+
