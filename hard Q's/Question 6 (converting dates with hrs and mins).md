@@ -22,7 +22,21 @@ arrange(desc(average_outage_duration))
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np
 
+isp_outages.head()
+
+isp_outages['start_time'] = pd.to_datetime(isp_outages['start_time'], format='%m/%d/%Y %H:%M')
+isp_outages['end_time'] = pd.to_datetime(isp_outages['end_time'], format='%m/%d/%Y %H:%M')
+isp_outages['time_difference'] = (isp_outages['end_time'] - isp_outages['start_time']).dt.total_seconds() / 60
+isp_outages['outgoing_outage'] = np.where(isp_outages['end_time'].isna(), 1, 0)
+isp_outages
+isp_outages.groupby('isp_name').agg(
+  average_outage_duration = ('time_difference', 'mean'),
+  ongoing_outages = ('outgoing_outage', 'sum')
+).reset_index().sort_values(by='average_outage_duration', ascending=False)
 ```
 
 # MySQL
