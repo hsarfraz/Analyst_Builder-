@@ -40,6 +40,12 @@ missing_values['average_excluding_min'] = missing_values['sale_amount_min'].mean
 missing_values.loc[:,['average_excluding_nulls', 'average_including_nulls', 'average_excluding_min']].head(1)
 ```
 
+include this line of code when you want to add na values in python
+
+```
+dirty_data['product_id'] = np.where(dirty_data['product_id'] <= 0, np.nan, dirty_data['product_id'])
+```
+
 # MySQL
 
 ```
