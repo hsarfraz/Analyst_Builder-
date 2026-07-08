@@ -55,6 +55,8 @@ ORDER BY average_outage_duration DESC;
 
 # PostgresSQL
 
+EPOCH is just the words for seconds in PostgresSQL
+
 ```
 SELECT isp_name,
  AVG(
