@@ -78,3 +78,49 @@ FROM df_copy
 WHERE starting_salary > 85000 AND position = 1 AND skill = 1
 ORDER BY job_id ASC;
 ```
+
+# postgresSQL
+
+```
+WITH df_copy AS (
+SELECT *,
+  REPLACE(split_part(job_salary, '-', 1), '$', '')::float AS starting_salary,
+  split_part(job_salary, '-', 2) AS end_salary,
+CASE 
+  WHEN job_title LIKE '%Senior%' THEN 1
+  WHEN job_title LIKE '%Lead%' THEN 1
+  ELSE 0 END AS position,
+CASE 
+  WHEN required_skills LIKE '%SQL%' THEN 1
+  WHEN required_skills LIKE '%Python%' THEN 1
+  ELSE 0 END AS skill
+FROM job_listings)
+
+SELECT job_id, job_title, job_salary, required_skills
+FROM df_copy
+WHERE starting_salary > 85000 AND position = 1 AND skill = 1
+ORDER BY job_id ASC;
+```
+
+# MSSQL
+
+```
+WITH df_copy AS (
+SELECT *,
+CAST(REPLACE(PARSENAME(REPLACE(job_salary, '-', '.'), 2), '$', '') AS FLOAT) AS starting_salary,
+PARSENAME(REPLACE(job_salary, '-', '.'), 1) AS end_salary,
+CASE 
+  WHEN job_title LIKE '%Senior%' THEN 1
+  WHEN job_title LIKE '%Lead%' THEN 1
+  ELSE 0 END AS position,
+CASE 
+  WHEN required_skills LIKE '%SQL%' THEN 1
+  WHEN required_skills LIKE '%Python%' THEN 1
+  ELSE 0 END AS skill
+FROM job_listings)
+
+SELECT job_id, job_title, job_salary, required_skills
+FROM df_copy
+WHERE starting_salary > 85000 AND position = 1 AND skill = 1
+ORDER BY job_id ASC;
+```
