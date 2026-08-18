@@ -20,7 +20,18 @@ arrange(ranks, actions)
 # Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np;
 
+facebook.head()
+
+facebook['christmas'] = np.where(facebook['dates'].str.contains('12/25'), 1, 0)
+
+facebook = facebook.loc[facebook['christmas'] == 1,:]
+facebook = facebook.groupby('actions')['actions'].count().reset_index(name='count')
+facebook['ranks'] = facebook['count'].rank(method='min', ascending=False)
+facebook.loc[:,:].sort_values(by=['ranks', 'actions'], ascending = [True, True])
 ```
 
 # MYSQL
