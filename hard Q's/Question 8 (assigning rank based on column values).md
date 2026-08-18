@@ -37,5 +37,11 @@ facebook.loc[:,:].sort_values(by=['ranks', 'actions'], ascending = [True, True])
 # MYSQL
 
 ```
-
+SELECT actions,
+  COUNT(actions) AS counts,
+  RANK() OVER (ORDER BY COUNT(actions) desc) AS ranks
+FROM facebook
+WHERE (STR_TO_DATE(dates, '%Y-%m-%d') = '2023-12-25')
+GROUP BY actions
+ORDER BY ranks ASC, actions ASC;
 ```
