@@ -23,7 +23,18 @@ select(standardized_date)
 # Python
 
 ```
+import pandas as pd
+import numpy as np
 
+dates[['first', 'second', 'third']] = dates['date'].str.split('-', expand=True)
+
+dates['standardized_date'] = np.where(
+    dates['first'].str.len() == 4,
+    dates['first'] + '-' + dates['second'] + '-' + dates['third'],
+    dates['third'] + '-' + dates['first'] + '-' + dates['second']
+)
+
+dates[['standardized_date']]
 ```
 
 # MySQL
