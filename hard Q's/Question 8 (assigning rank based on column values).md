@@ -1,3 +1,7 @@
+min_rank() gives a rank while maintaining the original sequence of numbers. So if two numbers are assigned rank one the next rank number will be 3
+
+dense_rank() gives a rank and doesn't maintain the original sequence of numbers. So if two numbers are assigned rank one the next rank number will be 2
+
 # R
 
 ```
