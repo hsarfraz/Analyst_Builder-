@@ -9,33 +9,35 @@ dense_rank() gives a rank and doesn't maintain the original sequence of numbers.
 library(dplyr)
 
 # access your data
-head(facebook)
-library(stringr)
+head(departments)
 
-facebook %>%
-mutate(christmas = ifelse(str_detect(dates, '12/25'), 1, 0)) %>%
-filter(christmas == 1) %>%
-group_by(actions) %>%
-summarise(actions_count = n()) %>%
-mutate(ranks = min_rank(desc(actions_count))) %>%
-arrange(ranks, actions)
+left_join(employees, departments, by = c("department_id" = "department_id")) %>%
+group_by(department_name, employee_name) %>%
+summarise(total_salary = sum(salary)) %>%
+mutate(ranks = min_rank(desc(total_salary))) %>%
+filter(ranks == 2) %>%
+select(department_name, employee_name, total_salary)
 ```
 
 # Python
 
 ```
 # access datasets as pandas dataframes
-import pandas as pd
-import numpy as np;
+import pandas as pd;
 
-facebook.head()
+departments.head()
 
-facebook['christmas'] = np.where(facebook['dates'].str.contains('12/25'), 1, 0)
+df = pd.merge(
+  employees,
+  departments,
+  how='left',
+  left_on='department_id',
+  right_on='department_id'
+).groupby(['department_name', 'employee_name'])['salary'].sum().reset_index()
 
-facebook = facebook.loc[facebook['christmas'] == 1,:]
-facebook = facebook.groupby('actions')['actions'].count().reset_index(name='count')
-facebook['ranks'] = facebook['count'].rank(method='min', ascending=False)
-facebook.loc[:,:].sort_values(by=['ranks', 'actions'], ascending = [True, True])
+df['ranks'] = df.groupby('department_name')['salary'].rank(method='min', ascending=False)
+
+df.loc[(df['ranks'] == 2),['department_name', 'employee_name', 'salary']]
 ```
 
 # MYSQL
