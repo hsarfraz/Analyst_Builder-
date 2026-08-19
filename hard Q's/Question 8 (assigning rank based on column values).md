@@ -43,11 +43,18 @@ df.loc[(df['ranks'] == 2),['department_name', 'employee_name', 'salary']]
 # MYSQL
 
 ```
-SELECT actions,
-  COUNT(actions) AS counts,
-  RANK() OVER (ORDER BY COUNT(actions) desc) AS ranks
-FROM facebook
-WHERE (STR_TO_DATE(dates, '%Y-%m-%d') = '2023-12-25')
-GROUP BY actions
-ORDER BY ranks ASC, actions ASC;
+WITH df AS( 
+SELECT 
+  department_name, 
+  employee_name,
+  SUM(salary) AS total_salary,
+  RANK() OVER (PARTITION BY department_name ORDER BY SUM(salary) desc) AS ranks
+FROM employees employees_df
+LEFT JOIN departments departments_df
+  ON employees_df.department_id = departments_df.department_id 
+GROUP BY department_name, employee_name)
+  
+SELECT department_name, employee_name, total_salary
+FROM df
+WHERE ranks = 2;
 ```
