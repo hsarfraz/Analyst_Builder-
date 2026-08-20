@@ -57,7 +57,18 @@ FROM df;
 # postgresSQL
 
 ```
-
+WITH df AS(SELECT *,
+  split_part(date::text, '-', 1) AS first,
+  split_part(date::text, '-', 2) AS second, 
+  split_part(date::text, '-', 3) AS third
+FROM dates)
+  
+SELECT 
+  CASE 
+  WHEN LENGTH(first) = 4 
+  THEN CONCAT(first, '-', second, '-', third) 
+  ELSE CONCAT(third , '-', first , '-', second) END AS standardized_date
+FROM df;
 ```
 
 # MSSQL
