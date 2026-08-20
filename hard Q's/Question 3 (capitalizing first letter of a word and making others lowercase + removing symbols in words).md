@@ -39,3 +39,27 @@ SELECT *,
 
 FROM janines_mistakes;
 ```
+
+# MSSQL
+
+```
+WITH df AS (
+    SELECT *,
+        REPLACE(
+          REPLACE(
+            REPLACE(
+                REPLACE(product_name, '.', ''),
+                '…', ''),
+            '-', ''), '!', '') AS clean_product_name
+    FROM janines_mistakes
+)
+
+SELECT 
+    product_id,
+    CONCAT(
+        UPPER(LEFT(clean_product_name, 1)),
+        LOWER(SUBSTRING(clean_product_name, 2, LEN(clean_product_name)))
+    ) AS product_name,
+    amount_sold
+FROM df;
+```
