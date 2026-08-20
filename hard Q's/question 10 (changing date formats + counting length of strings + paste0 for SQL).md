@@ -97,9 +97,4 @@ SELECT
 FROM df;
 ```
 
-# MSSQL
-
-```
-
-```
 
