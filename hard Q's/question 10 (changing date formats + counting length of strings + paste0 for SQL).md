@@ -48,7 +48,7 @@ FROM dates)
   
 SELECT 
   CASE 
-  WHEN CHAR_LENGTH(first) = 4 
+  WHEN LENGTH(first) = 4 
   THEN CONCAT(first, '-', second, '-', third) 
   ELSE CONCAT(third , '-', first , '-', second) END AS standardized_date
 FROM df;
