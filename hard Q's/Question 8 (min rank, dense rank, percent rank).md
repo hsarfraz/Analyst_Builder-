@@ -3,7 +3,7 @@
 * [min rank + dense rank](#min-rank)
 * [percent rank](#percent-rank)
 
-## min rank
+## min and dense rank
 
 
 min_rank() gives a rank while maintaining the original sequence of numbers. So if two numbers are assigned rank one the next rank number will be 3
