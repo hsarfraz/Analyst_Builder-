@@ -1,24 +1,17 @@
-# What is percent rank?
-
-Percent rank basically gets the column and orders the values from smallest to largest. It then assigns a number from 1 to a number as a rank and then it calculates the percentage/rank of each row value relative to the other values in the column
-
 # R
 
 ```
 # You can load libraries like dplyr if needed
 library(dplyr)
+library(stringr)
 
 # access your data
-head(marketing_spend)
+head(janines_mistakes)
 
-marketing_spend %>%
-mutate(
-  ROI = round(((revenue_generated - investment)/investment) * 100, digits = 0),
-rank = percent_rank(ROI)*100
-) %>%
-arrange(desc(ROI), desc(campaign_id)) %>%
-filter(rank <= 100 & rank >=75) %>%
-select(campaign_id, campaign_name, ROI)
+janines_mistakes %>%
+mutate(product_name = str_to_title(product_name),
+       product_name = str_replace_all(product_name, "[[:punct:]]" , '')) 
+
 ```
 
 # Python
