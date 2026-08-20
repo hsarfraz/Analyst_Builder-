@@ -26,6 +26,16 @@ janines_mistakes
 
 # MySQL
 
-```
+* LEFT takes all the characters that are to the left of the specified index
+* SUBSTRING takes all the characters that are to the right of the specified index
+* `REGEXP_REPLACE(product_name, '[[:punct:]…]', '')` removes punctuation
 
+```
+SELECT *,
+  CONCAT(
+  UPPER(LEFT(REGEXP_REPLACE(product_name, '[[:punct:]…]', ''), 1)), 
+  LOWER(SUBSTRING(REGEXP_REPLACE(product_name, '[[:punct:]…]', ''), 2))
+  ) AS product_name
+
+FROM janines_mistakes;
 ```
