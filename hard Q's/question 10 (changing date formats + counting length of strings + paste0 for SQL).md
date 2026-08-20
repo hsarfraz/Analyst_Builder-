@@ -74,6 +74,32 @@ FROM df;
 # MSSQL
 
 ```
+WITH df AS (SELECT *,
+  LEFT(CAST(date AS varchar), 
+  CHARINDEX('-', CAST(date AS varchar)) - 1) AS first,
+  
+  SUBSTRING(CAST(date AS varchar), 
+  CHARINDEX('-', CAST(date AS varchar)) + 1, 2) AS second,
+
+  SUBSTRING( CAST(date AS varchar),
+  CHARINDEX('-',
+    CAST([date] AS varchar),
+    CHARINDEX('-', CAST([date] AS varchar)) + 1) + 1,
+  LEN(CAST(date AS varchar))
+  ) as third
+FROM dates)
+  
+SELECT 
+  CASE 
+  WHEN LEN(first) = 4 
+  THEN CONCAT(first, '-', second, '-', third) 
+  ELSE CONCAT(third , '-', first , '-', second) END AS standardized_date
+FROM df;
+```
+
+# MSSQL
+
+```
 
 ```
 
