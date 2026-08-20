@@ -17,32 +17,15 @@ mutate(product_name = str_to_title(product_name),
 # Python
 
 ```
-# access datasets as pandas dataframes
-import pandas as pd;
+import string
 
-marketing_spend.head()
-
-marketing_spend['ROI'] = ((marketing_spend['revenue_generated'] - marketing_spend['investment']) / marketing_spend['investment']) * 100
-marketing_spend['ROI'] = marketing_spend['ROI'].round()
-marketing_spend['rank'] = (marketing_spend['ROI'].rank(pct=True) * 100)
-marketing_spend.loc[ (marketing_spend['rank'] <= 100) & (marketing_spend['rank'] >= 75) ,['campaign_id', 'campaign_name', 'ROI']].sort_values(by=['ROI', 'campaign_id'], ascending = [False, False])
-
-
+# 1. Remove punctuation
+janines_mistakes['product_name'] = janines_mistakes['product_name'].str.replace('…', '', regex=False).str.translate(str.maketrans("", "", string.punctuation)).str.lower().str.capitalize()
+janines_mistakes
 ```
 
 # MySQL
 
 ```
-WITH df AS (SELECT campaign_id,
-  campaign_name,
-  ROUND(((revenue_generated - investment)/investment)*100, 0) AS ROI,
-  PERCENT_RANK() OVER (ORDER BY (revenue_generated - investment)/investment)*100 as pct_rank
-FROM marketing_spend
-ORDER BY ROI DESC, campaign_id DESC)
-  
-SELECT campaign_id,
-  campaign_name,
-  ROI 
-FROM df
-WHERE pct_rank <= 100 AND pct_rank >= 75;
+
 ```
