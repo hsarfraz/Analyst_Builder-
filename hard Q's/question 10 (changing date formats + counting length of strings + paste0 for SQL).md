@@ -40,6 +40,29 @@ dates[['standardized_date']]
 # MySQL
 
 ```
+WITH df AS(SELECT *,
+  SUBSTRING_INDEX(date, '-', 1) AS first,
+  SUBSTRING_INDEX(SUBSTRING_INDEX(date, '-', 2), '-', -1) AS second, 
+  SUBSTRING_INDEX(date, '-', -1) AS third
+FROM dates)
+  
+SELECT 
+  CASE 
+  WHEN CHAR_LENGTH(first) = 4 
+  THEN CONCAT(first, '-', second, '-', third) 
+  ELSE CONCAT(third , '-', first , '-', second) END AS standardized_date
+FROM df;
+```
+
+# postgresSQL
+
+```
+
+```
+
+# MSSQL
+
+```
 
 ```
 
