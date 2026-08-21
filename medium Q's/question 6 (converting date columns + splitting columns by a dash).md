@@ -1,6 +1,13 @@
-# question [link](https://www.analystbuilder.com/questions/multi-level-marketing-VXWrg)
+# Table of Contents
 
-# R
+* [converting dates](#converting-dates)
+* [extracting time from date](#extracting-time-from-date)
+
+## Converting Dates
+
+## question [link](https://www.analystbuilder.com/questions/multi-level-marketing-VXWrg)
+
+## R
 
 ```
 # You can load libraries like dplyr if needed
@@ -27,7 +34,7 @@ filter(profit > 0) %>%
 arrange(desc(profit))
 ```
 
-# python
+## python
 
 ```
 import pandas as pd;
@@ -42,7 +49,7 @@ profits = profits.groupby('month')['profit'].sum().reset_index()
 profits.loc[(profits['profit'] > 0),:].sort_values(by='profit', ascending = False)
 ```
 
-# MySQL
+## MySQL
 
 ```
 SELECT 
@@ -56,7 +63,7 @@ ORDER BY total_profit DESC
   LIMIT 10;
 ```
 
-# PostgresSQL
+## PostgresSQL
 
 important to note that I didn't need to convert the date column to a datetype column since the date format was in 2024-01-01 and postgresSQL already converts dates with dashes to a date
 
@@ -79,7 +86,7 @@ SELECT customer_id,
 FROM customers;
 ```
 
-# MSSQL
+## MSSQL
 
 ```
 SELECT
@@ -100,4 +107,24 @@ CHARINDEX(' ', full_name + ' '): Finds the exact position of the first space. Ap
 SELECT customer_id,
   LEFT(full_name, CHARINDEX(' ', full_name + ' ') - 1) AS first_name
 FROM customers;
+```
+
+## Extracting time from date
+
+## R
+
+```
+
+```
+
+## Python
+
+```
+
+```
+
+## MySQL
+
+```
+
 ```
