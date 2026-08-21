@@ -1,7 +1,7 @@
 # Table of Contents
 
 * [converting dates](#converting-dates)
-* [extracting time from date](#extracting-time-from-date)
+* [extracting date and time](#extracting-date-and-time)
 
 ## Converting Dates
 
@@ -109,7 +109,7 @@ SELECT customer_id,
 FROM customers;
 ```
 
-## Extracting time from date
+## Extracting date and time
 
 ## R
 
