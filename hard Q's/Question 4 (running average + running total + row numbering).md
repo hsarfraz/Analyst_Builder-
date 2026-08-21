@@ -1,4 +1,9 @@
-# What is a running average?
+# Table of Contents
+
+* [running average](#running-average)
+* [percent rank](#percent-rank)
+
+## running average
 
 A running average  is a statistical technique used to analyse data by continually updating the average as new points are added. The running average is used in finance, weather forecasts, and computer vision to smooth out data and highlight long-term trends.
 
@@ -22,7 +27,7 @@ Example:
 | Jan 3  | $(100 + 200 + 300)/3$ = 200  | 
 | Jan 4  | $(100 + 200 + 300 + 400)/4$ = 250  | 
 
-# R
+## R
 
 ```
 # You can load libraries like dplyr if needed
@@ -42,7 +47,7 @@ mutate(row_num = row_number(),
 select(sale_date, store_id, running_average)
 ```
 
-# Python
+## Python
 
 ```
 # access datasets as pandas dataframes
@@ -60,7 +65,20 @@ sales_records['running_average'] = (sales_records['cumulative_sum']/sales_record
 sales_records.loc[:,['sale_date_format', 'store_id', 'running_average']]
 ```
 
-# MySQL
+Here is code if you aren't using groupby() since cumcount() only works with groupby()
+
+```
+investment_property = investment_property.sort_values(
+    by='purchase_price',
+    ascending=True
+)
+
+investment_property['row_num'] = range(1, len(investment_property) + 1)
+
+investment_property
+```
+
+## MySQL
 
 **Note**: PARTITION is not a part of the SFJWGHOL SQL coding order of operations. PARTITION is like group by except it doesn't collapse rows 
 
@@ -80,4 +98,60 @@ SELECT sale_date,
   store_id, 
   cumulative_sum/row_num AS running_average
 FROM df
+```
+
+## percent average
+
+## R
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+
+# access your data
+head(investment_property)
+
+investment_property %>%
+arrange(purchase_price) %>%
+mutate(profit_or_loss = estimated_sale_price - purchase_price,
+       cumulative_profit_or_loss = cumsum(profit_or_loss)
+       ) %>%
+select(property_id, profit_or_loss, cumulative_profit_or_loss) 
+```
+
+## Python
+
+```
+# access datasets as pandas dataframes
+import pandas as pd;
+
+investment_property.head()
+
+investment_property = investment_property.sort_values(by=['purchase_price'], ascending=True)
+
+investment_property['profit_loss'] = investment_property['estimated_sale_price'] - investment_property['purchase_price']
+
+investment_property['running_profit_loss'] = investment_property['profit_loss'].cumsum()
+
+investment_property.loc[:,['property_id', 'profit_loss', 'running_profit_loss']]
+```
+
+## MySQL and PostgresSQL
+
+```
+SELECT property_id,
+  estimated_sale_price - purchase_price AS profit_loss,
+  SUM(estimated_sale_price - purchase_price) OVER (ORDER BY purchase_price ASC) AS running_profit_loss
+FROM investment_property
+ORDER BY purchase_price ASC;
+```
+
+## MSSQL
+
+```
+SELECT property_id,
+  estimated_sale_price - purchase_price AS profit_loss,
+  SUM(estimated_sale_price - purchase_price) OVER (ORDER BY purchase_price ASC) AS running_profit_loss
+FROM investment_property
+ORDER BY purchase_price ASC;
 ```
