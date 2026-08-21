@@ -1,7 +1,7 @@
 # Table of Contents
 
 * [running average](#running-average)
-* [percent rank](#percent-rank)
+* [running total](#running-total)
 
 ## running average
 
@@ -100,7 +100,31 @@ SELECT sale_date,
 FROM df
 ```
 
-## percent average
+## running total
+
+A running total is when you add the cumulative sum of a row based on the rows behind it. It does not need a rank number since rank number is used to calculate averages.
+
+$$
+Running total = Running Sum
+$$
+
+Example:
+
+| Sales Date | Daily Sales |
+| -------- | -------- | 
+| Jan 1  | 100  | 
+| Jan 2  | 200  | 
+| Jan 3  | 300  | 
+| Jan 4  | 400  | 
+
+| Sales Date | Running Total |
+| -------- | -------- | 
+| Jan 1  | 100 | 
+| Jan 2  | 100 + 200 = 300  | 
+| Jan 3  | 100 + 200 + 300 = 600  | 
+| Jan 4  | 100 + 200 + 300 + 400 = 1000  | 
+
+
 
 ## R
 
