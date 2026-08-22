@@ -1,4 +1,13 @@
-# R
+# Table of Contents
+
+* [column value separation via symbols](#column-value-separation-via-symbols)
+* [removing start and end spaces from all columns](#removing-start-and-end-spaces-from-all-columns)
+
+## column value separation via symbols
+
+
+
+## R
 
 ```
 # You can load libraries like dplyr if needed
@@ -27,7 +36,7 @@ select(-c(position, skills, start_range, end_range)) %>%
 arrange(as.numeric(job_id))
 ```
 
-# Python
+## Python
 
 ```
 # access datasets as pandas dataframes
@@ -56,7 +65,7 @@ job_listings = job_listings.drop(['start_salary', 'end_salary', 'position', 'ski
 job_listings
 ```
 
-# MySQL
+## MySQL
 
 ```
 WITH df_copy AS (
@@ -79,7 +88,7 @@ WHERE starting_salary > 85000 AND position = 1 AND skill = 1
 ORDER BY job_id ASC;
 ```
 
-# postgresSQL
+## postgresSQL
 
 ```
 WITH df_copy AS (
@@ -102,7 +111,7 @@ WHERE starting_salary > 85000 AND position = 1 AND skill = 1
 ORDER BY job_id ASC;
 ```
 
-# MSSQL
+## MSSQL
 
 ```
 WITH df_copy AS (
@@ -124,3 +133,37 @@ FROM df_copy
 WHERE starting_salary > 85000 AND position = 1 AND skill = 1
 ORDER BY job_id ASC;
 ```
+
+## removing start and end spaces from all columns
+
+## R
+
+```
+
+```
+
+## Python
+
+```
+
+```
+
+## MySQL
+
+```
+
+```
+
+## PostgresSQL
+
+```
+
+```
+
+## MSSQL
+
+```
+
+```
+
+
