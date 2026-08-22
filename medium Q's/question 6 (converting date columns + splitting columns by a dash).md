@@ -133,7 +133,18 @@ head(1)
 ## Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd;
 
+hotel_guests.head()
+
+hotel_guests['check_out'] = pd.to_datetime(hotel_guests['check_out'], format='%m/%d/%Y %H:%M')
+
+hotel_guests["check_out_hours"] = hotel_guests["check_out"].dt.strftime("%H:%M:%S")
+
+hotel_guests = hotel_guests.loc[ (    hotel_guests["check_out"] > pd.to_datetime(hotel_guests["check_out"].dt.date.astype(str) + " 10:00:00")) ,:]
+
+hotel_guests.count().reset_index(name = 'counts').loc[:,['counts']].head(1)
 ```
 
 ## MySQL
