@@ -114,7 +114,20 @@ FROM customers;
 ## R
 
 ```
+# You can load libraries like dplyr if needed
+library(dplyr)
 
+# access your data
+head(hotel_guests)
+
+hotel_guests$check_out <- as.POSIXct(hotel_guests$check_out, format = "%m/%d/%Y %H:%M")
+
+hotel_guests %>%
+mutate(check_out_hours = format(check_out, "%H:%M:%S")) %>%
+filter(check_out > as.POSIXct(paste(as.Date(check_out), "10:00:00"))) %>%
+mutate(counts = n()) %>%
+select(counts) %>%
+head(1)
 ```
 
 ## Python
