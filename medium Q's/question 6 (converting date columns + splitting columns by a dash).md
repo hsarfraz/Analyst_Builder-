@@ -150,5 +150,23 @@ hotel_guests.count().reset_index(name = 'counts').loc[:,['counts']].head(1)
 ## MySQL
 
 ```
+SELECT COUNT(*) AS counts
+FROM hotel_guests
+WHERE TIME(check_out) > '10:00:00';
+```
 
+## PostgresSQL
+
+```
+SELECT COUNT(*) AS counts
+FROM hotel_guests
+WHERE check_out::time > '10:00:00'::time;
+```
+
+## MSSQL
+
+```
+SELECT COUNT(*) AS counts
+FROM hotel_guests
+WHERE CAST(check_out AS time) > '10:00:00';
 ```
