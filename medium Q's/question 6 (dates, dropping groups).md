@@ -113,6 +113,9 @@ FROM customers;
 
 ## R
 
+* `as.POSIXct()` is a function that is used to convert a value to a datetime object. So the date and time is included
+* `as.POSIXct(paste(as.Date(check_out), "10:00:00"))` is basically getting the date from the date column and merging it with the time which is 10 AM
+
 ```
 # You can load libraries like dplyr if needed
 library(dplyr)
@@ -124,7 +127,7 @@ hotel_guests$check_out <- as.POSIXct(hotel_guests$check_out, format = "%m/%d/%Y 
 
 hotel_guests %>%
 mutate(check_out_hours = format(check_out, "%H:%M:%S")) %>%
-filter(check_out > as.POSIXct(paste(as.Date(check_out), "10:00:00"))) %>%
+filter(check_out > as.POSIXct(paste(as.Date(check_out), "10:00:00"))) %>% 
 mutate(counts = n()) %>%
 select(counts) %>%
 head(1)
