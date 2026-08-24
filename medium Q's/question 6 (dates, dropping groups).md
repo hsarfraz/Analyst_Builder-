@@ -189,7 +189,25 @@ WHERE CAST(check_out AS time) > '10:00:00';
 
 
 ```
+library(dplyr)
 
+head(walks)
+
+walks$day_walked_format <- as.Date(walks$day_walked, format='%m/%d/%Y')
+
+walks %>%
+mutate( 
+day_of_the_week_numbered = as.integer(format(day_walked_format, "%w")),
+start_of_the_week_date = day_walked_format - day_of_the_week_numbered
+  ) %>%
+group_by(owner_name, dog_name, start_of_the_week_date) %>%
+summarise(total_times_walked = sum(times_walked),
+          owner_type = ifelse(total_times_walked < 5, 'Bad Owner', 'Good Owner'),
+          .groups = 'drop') %>%
+group_by(owner_name) %>%
+summarise(owner_type = ifelse( any(owner_type == "Bad Owner"), "Bad Owner", "Good Owner"),
+  .groups = "drop" ) %>%
+arrange(owner_name)
 ```
 
 ## Python
