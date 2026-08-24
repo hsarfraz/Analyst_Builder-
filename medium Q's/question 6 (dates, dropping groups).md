@@ -212,7 +212,31 @@ arrange(owner_name)
 ## Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np;
 
+walks.head()
+
+walks['day_walked_format'] = pd.to_datetime(walks['day_walked'], format = '%m/%d/%Y')
+
+walks['day_of_week']  = (walks['day_walked_format'].dt.dayofweek + 1) % 7
+
+walks['start_of_week'] = walks['day_walked_format'] - pd.to_timedelta(walks['day_of_week'], unit='D')
+
+walks = walks.groupby(['owner_name', 'dog_name', 'start_of_week'])['times_walked'].sum().reset_index(name = 'total_walks')
+
+walks['good_bad'] = np.where(walks['total_walks'] < 5, 'Bad Owner', 'Good Owner')
+
+walks = walks.groupby('owner_name')['good_bad'].apply(lambda x: (x == 'Bad Owner').any()).reset_index(name='owner_type')
+
+walks['owner_type'] = np.where(
+    walks['owner_type'] == True,
+    'Bad Owner',
+    'Good Owner'
+)
+
+walks
 ```
 
 ## MySQL
