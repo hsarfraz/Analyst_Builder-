@@ -2,6 +2,7 @@
 
 * [converting dates](#converting-dates)
 * [extracting date and time](#extracting-date-and-time)
+* [Using group by and dropping groups to extract values based on one week intervals using dates](#using-group-by-and-dropping-groups-to-extract-values-based-on-one-week-intervals-using-dates)
 
 ## Converting Dates
 
@@ -113,6 +114,8 @@ FROM customers;
 
 ## R
 
+* [table of contents](#table-of-contents)
+
 * `as.POSIXct()` is a function that is used to convert a value to a datetime object. So the date and time is included
 * `as.POSIXct(paste(as.Date(check_out), "10:00:00"))` is basically getting the date from the date column and merging it with the time which is 10 AM
 
@@ -172,4 +175,36 @@ WHERE check_out::time > '10:00:00'::time;
 SELECT COUNT(*) AS counts
 FROM hotel_guests
 WHERE CAST(check_out AS time) > '10:00:00';
+```
+
+## Using group by and dropping groups to extract values based on one week intervals using dates
+
+## R
+
+```
+
+```
+
+## Python
+
+```
+
+```
+
+## MySQL
+
+```
+
+```
+
+## PostgresSQL
+
+```
+
+```
+
+## MSSQL
+
+```
+
 ```
