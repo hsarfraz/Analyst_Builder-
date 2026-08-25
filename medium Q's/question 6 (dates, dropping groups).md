@@ -211,6 +211,12 @@ arrange(owner_name)
 
 ## Python
 
+* [table of contents](#table-of-contents)
+
+* `(walks['day_walked_format'].dt.dayofweek + 1) % 7` looks at the date and gives it a number which represents the day of the week with Sunday being 0 and Saturday being 6. The reason why 1 is being added and integer division by 7 is being used is to make the numbering with Sunday being 0 and Saturday being 6 because Monday is 0 and Sunday is 6. Integer division gets the remainder as the output.
+* `pd.to_timedelta(walks['day_of_week'], unit='D')` gets the number which represents a day of the week and converts it to a date.
+* `.apply(lambda x: (x == 'Bad Owner').any())` lambda looks at each group and applies the any() function on it
+
 ```
 # access datasets as pandas dataframes
 import pandas as pd
