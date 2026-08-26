@@ -248,7 +248,59 @@ walks
 ## MySQL
 
 ```
+WITH df AS (
+    -- 1. Convert day_walked and find the start of its week
+    SELECT
+        owner_name,
+        dog_name,
+        times_walked,
+        STR_TO_DATE(day_walked, '%c/%e/%Y') AS day_walked_format
+    FROM walks
+),
 
+weekly_walks AS (
+    -- 2. Group by owner, dog, and week
+    SELECT
+        owner_name,
+        dog_name,
+        DATE_SUB(
+            day_walked_format,
+            INTERVAL (DAYOFWEEK(day_walked_format) - 1) DAY
+        ) AS start_of_week,
+        SUM(times_walked) AS total_walks
+    FROM df
+    GROUP BY
+        owner_name,
+        dog_name,
+        DATE_SUB(
+            day_walked_format,
+            INTERVAL (DAYOFWEEK(day_walked_format) - 1) DAY
+        )
+),
+
+owner_status AS (
+    -- 3. Determine whether each owner has ANY bad week
+    SELECT
+        owner_name,
+        MAX(
+            CASE
+                WHEN total_walks < 5 THEN 1
+                ELSE 0
+            END
+        ) AS has_bad_week
+    FROM weekly_walks
+    GROUP BY owner_name
+)
+
+-- 4. Turn 1/0 into Bad Owner/Good Owner
+SELECT
+    owner_name,
+    CASE
+        WHEN has_bad_week = 1 THEN 'Bad Owner'
+        ELSE 'Good Owner'
+    END AS owner_type
+FROM owner_status
+ORDER BY owner_name;
 ```
 
 ## PostgresSQL
