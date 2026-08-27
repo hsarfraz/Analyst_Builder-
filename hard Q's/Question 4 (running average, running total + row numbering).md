@@ -160,23 +160,15 @@ investment_property['running_profit_loss'] = investment_property['profit_loss'].
 investment_property.loc[:,['property_id', 'profit_loss', 'running_profit_loss']]
 ```
 
-## MySQL and PostgresSQL
+## MySQL, PostgresSQL, and MSSQL
 
 * SUM() combined with OVER() + ORDER BY means cumulative sum or running average in MySQL
 * PARTITION BY acts as a group by 
 
 ```
 SELECT gender, dates, points,
-  SUM(points) OVER(PARTITION BY gender ORDER BY gender ASC, dates ASC) AS running_total
-FROM points;
+  SUM(points) OVER(PARTITION BY gender ORDER BY dates ASC) AS running_total
+FROM points
+ORDER BY gender ASC, dates ASC;
 ```
 
-## MSSQL
-
-```
-SELECT property_id,
-  estimated_sale_price - purchase_price AS profit_loss,
-  SUM(estimated_sale_price - purchase_price) OVER (ORDER BY purchase_price ASC) AS running_profit_loss
-FROM investment_property
-ORDER BY purchase_price ASC;
-```
