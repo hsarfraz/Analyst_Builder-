@@ -162,12 +162,13 @@ investment_property.loc[:,['property_id', 'profit_loss', 'running_profit_loss']]
 
 ## MySQL and PostgresSQL
 
+* SUM() combined with OVER() + ORDER BY means cumulative sum or running average in MySQL
+* PARTITION BY acts as a group by 
+
 ```
-SELECT property_id,
-  estimated_sale_price - purchase_price AS profit_loss,
-  SUM(estimated_sale_price - purchase_price) OVER (ORDER BY purchase_price ASC) AS running_profit_loss
-FROM investment_property
-ORDER BY purchase_price ASC;
+SELECT gender, dates, points,
+  SUM(points) OVER(PARTITION BY gender ORDER BY gender ASC, dates ASC) AS running_total
+FROM points;
 ```
 
 ## MSSQL
