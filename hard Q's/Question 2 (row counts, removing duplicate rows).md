@@ -32,7 +32,24 @@ summarise(total_completed_counts = sum(completed_counts),
 ## Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np;
 
+help_requests.head()
+
+help_requests['completed_types'] = np.where(help_requests['state'] == 'Completed', 1, 0)
+help_requests['non_completed_types'] = np.where(help_requests['state'] != 'Completed', 1, 0)
+
+help_requests = help_requests.groupby('type').agg(
+  total_completed_types = ('completed_types', 'sum'),
+  total_non_completed_types = ('non_completed_types', 'sum'),
+  total_counts_of_group_type = ('type', 'size')
+).reset_index()
+
+help_requests['complete_percent'] = (help_requests['total_completed_types'] / help_requests['total_counts_of_group_type']) * 100
+
+help_requests.loc[:,['type', 'total_completed_types', 'total_non_completed_types', 'complete_percent']]
 ```
 
 ## MySQL
