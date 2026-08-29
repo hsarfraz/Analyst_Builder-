@@ -54,20 +54,58 @@ help_requests.loc[:,['type', 'total_completed_types', 'total_non_completed_types
 
 ## MySQL
 
-```
+* `COUNT(*)` after the group_by counts all the rows in the dataframe
 
+```
+WITH df AS(SELECT *,
+CASE WHEN state = 'Completed' THEN 1 ELSE 0 END AS received_mark,
+CASE WHEN state != 'Completed' THEN 1 ELSE 0 END AS not_received_mark
+FROM help_requests)
+  
+SELECT type,
+  SUM(received_mark) AS total_received,
+  SUM(not_received_mark) AS not_total_received,
+  (SUM(received_mark) / COUNT(*)) * 100 AS received_percentage
+FROM df 
+GROUP BY type;
 ```
 
 ## PostgresSQL
 
-```
+* when doing division it is important to convert the denominator to a float
 
+```
+WITH df AS(SELECT *,
+CASE WHEN state = 'Completed' THEN 1 ELSE 0 END AS received_mark,
+CASE WHEN state != 'Completed' THEN 1 ELSE 0 END AS not_received_mark
+FROM help_requests)
+  
+SELECT type,
+  SUM(received_mark) AS total_received,
+  SUM(not_received_mark) AS not_total_received,
+  (SUM(received_mark) / COUNT(*)::float) * 100 AS received_percentage
+FROM df 
+GROUP BY type
+ORDER BY type;
 ```
 
 ## MSSQL
 
-```
+* when doing division it is important to convert the denominator to a float
 
+```
+WITH df AS(SELECT *,
+CASE WHEN state = 'Completed' THEN 1 ELSE 0 END AS received_mark,
+CASE WHEN state != 'Completed' THEN 1 ELSE 0 END AS not_received_mark
+FROM help_requests)
+  
+SELECT type,
+  SUM(received_mark) AS total_received,
+  SUM(not_received_mark) AS not_total_received,
+  (SUM(received_mark) / CAST(COUNT(*) AS FLOAT)) * 100 AS received_percentage
+FROM df 
+GROUP BY type
+ORDER BY type;
 ```
 
 ## removing duplicate rows then doing row counts
