@@ -3,6 +3,7 @@
 * [converting dates](#converting-dates)
 * [extracting date and time](#extracting-date-and-time)
 * [Using group by and dropping groups to extract values based on one week intervals using dates](#using-group-by-and-dropping-groups-to-extract-values-based-on-one-week-intervals-using-dates)
+* [subtracting dates and counting rows](#subtracting-dates-and-counting-rows)
 
 ## Converting Dates
 
@@ -301,6 +302,79 @@ SELECT
     END AS owner_type
 FROM owner_status
 ORDER BY owner_name;
+```
+
+## PostgresSQL
+
+```
+
+```
+
+## MSSQL
+
+```
+
+```
+
+## subtracting dates and counting rows
+
+ question [link](https://www.analystbuilder.com/questions/multi-level-marketing-VXWrg)
+
+## R
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+
+# access your data
+head(customers)
+
+customers$visit_date_format <- as.Date(customers$visit_date, format='%m/%d/%Y')
+
+
+left_join(customers, customers, by = 'customer_id') %>%
+mutate(date_difference = visit_date_format.y - visit_date_format.x) %>%
+filter(receipt_id.x != receipt_id.y, 
+       date_difference >= 0,
+       date_difference <=5) %>%
+group_by(customer_id) %>%
+summarise(counts = n()) %>%
+select(customer_id)
+```
+
+## Python
+
+```
+# access datasets as pandas dataframes
+import pandas as pd;
+
+customers.head()
+
+customers['visit_date_convert'] = pd.to_datetime(customers['visit_date'], format = '%m/%d/%Y')
+
+customers = pd.merge(
+  customers,
+  customers,
+  how='left',
+  left_on='customer_id',
+  right_on='customer_id'
+)
+
+customers['date_diff'] = (customers['visit_date_convert_y'] - customers['visit_date_convert_x']).dt.days
+
+customers = customers.loc[ (customers['date_diff'] <= 5) & 
+  (customers['date_diff'] >= 0) &
+  (customers['receipt_id_x'] != customers['receipt_id_y']) ,:]
+
+customers = customers.groupby('customer_id')['date_diff'].count().reset_index(name='counts')
+
+customers.loc[:,['customer_id']]
+```
+
+## MySQL
+
+```
+
 ```
 
 ## PostgresSQL
