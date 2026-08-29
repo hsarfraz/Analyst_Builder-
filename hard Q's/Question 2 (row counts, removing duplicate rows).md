@@ -1,4 +1,63 @@
-# R
+# Table of Contents
+
+* [row counts of groups](#row-counts-of-groups)
+* [removing duplicate rows then doing row counts](#removing-duplicate-rows-then-doing-row-counts)
+
+
+## row counts of groups
+
+* [table of contents](#table-of-contents)
+
+## R
+
+```
+# You can load libraries like dplyr if needed
+
+library(dplyr)
+
+# access your data
+
+head(help_requests)
+
+help_requests %>%
+mutate( completed_counts = ifelse(state == 'Completed', 1 , 0),
+        inprogress_counts = ifelse(state != 'Completed', 1, 0)) %>%
+group_by(type) %>%
+summarise(total_completed_counts = sum(completed_counts),
+          total_inprogress_counts = sum(inprogress_counts),
+          complete_percentage = (sum(completed_counts) / n()) * 100
+)
+```
+
+## Python
+
+```
+
+```
+
+## MySQL
+
+```
+
+```
+
+## PostgresSQL
+
+```
+
+```
+
+## MSSQL
+
+```
+
+```
+
+## removing duplicate rows then doing row counts
+
+* [table of contents](#table-of-contents)
+
+## R
 
 ```
 # You can load libraries like dplyr if needed
@@ -24,7 +83,7 @@ summarise(count = n()) %>%
 arrange(desc(count), recruiter_a, recruiter_b)
 ```
 
-# Python
+## Python
 
 ```
 # access datasets as pandas dataframes
@@ -51,7 +110,7 @@ df_merge = df_merge.drop_duplicates(subset=['client_id', 'recruiter_a', 'recruit
 df_merge.groupby(['recruiter_a','recruiter_b'])['client_id'].count().reset_index().sort_values(by=['client_id','recruiter_a', 'recruiter_b'], ascending=[False, True, True])
 ```
 
-# MySQL
+## MySQL
 
 ```
 WITH dataframe_to_merge AS (
