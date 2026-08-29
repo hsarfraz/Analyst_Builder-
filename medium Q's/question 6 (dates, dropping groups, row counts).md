@@ -371,20 +371,40 @@ customers = customers.groupby('customer_id')['date_diff'].count().reset_index(na
 customers.loc[:,['customer_id']]
 ```
 
-## MySQL
+## MySQL and PostgresSQL
 
 ```
-
-```
-
-## PostgresSQL
-
-```
-
+WITH df AS(SELECT 
+  receipt_id AS receipt_id_y,
+  customer_id AS customer_id_y,
+  visit_date AS visit_date_y
+FROM customers)
+  
+SELECT customer_id
+FROM customers cdf 
+LEFT JOIN df df 
+ON cdf.customer_id = df.customer_id_y
+WHERE (visit_date_y - visit_date) >= 0 
+  AND (visit_date_y - visit_date) <=5
+  AND (receipt_id != receipt_id_y)
+GROUP BY customer_id;
 ```
 
 ## MSSQL
 
 ```
-
+WITH df AS(SELECT 
+  receipt_id AS receipt_id_y,
+  customer_id AS customer_id_y,
+  visit_date AS visit_date_y
+FROM customers)
+  
+SELECT customer_id
+FROM customers cdf 
+LEFT JOIN df df 
+ON cdf.customer_id = df.customer_id_y
+WHERE (DATEDIFF(DAY, visit_date, visit_date_y)) >= 0 
+  AND (DATEDIFF(DAY, visit_date, visit_date_y)) <=5
+  AND (receipt_id != receipt_id_y)
+GROUP BY customer_id;
 ```
