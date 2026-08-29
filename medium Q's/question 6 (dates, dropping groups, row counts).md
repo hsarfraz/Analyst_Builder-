@@ -318,7 +318,7 @@ ORDER BY owner_name;
 
 ## subtracting dates and counting rows
 
- question [link](https://www.analystbuilder.com/questions/multi-level-marketing-VXWrg)
+* [table of contents](#table-of-contents)
 
 ## R
 
