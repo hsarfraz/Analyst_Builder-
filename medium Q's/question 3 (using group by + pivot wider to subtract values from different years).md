@@ -1,6 +1,14 @@
-# Question
+# Table of Contents
 
-# R
+* [using group by and pivot wider to subtract values from different years](#using-group-by-and-pivot-wider-to-subtract-values-from-different-years)
+* [using group by and getting row counts of a column based on certain string values](#using-group-by-and-getting-row-counts-of-a-column-based-on-certain-string-values)
+
+
+## using group by and pivot wider to subtract values from different years
+
+* [table of contents](#table-of-contents)
+
+## R
 
 ```
 # You can load libraries like dplyr if needed
@@ -19,7 +27,7 @@ select(company_name, difference) %>%
 arrange(company_name)
 ```
 
-# Python
+## Python
 
 ```
 # access datasets as pandas dataframes
@@ -33,7 +41,7 @@ df['difference'] = df[2023] - df[2022]
 df.loc[:,['company_name', 'difference']].sort_values(by='company_name',ascending=True)
 ```
 
-# MySQL
+## MySQL
 
 ```
 SELECT company_name,
@@ -41,4 +49,49 @@ SELECT company_name,
 FROM products
 GROUP BY company_name
 ORDER BY company_name ASC;
+```
+
+## using group by and getting row counts of a column based on certain string values
+
+* [table of contents](#table-of-contents)
+
+## R
+
+* `sum(state == 'Approved')` looks at the state column and turns every value to a true and false boolean. When sum is used it adds up all the true values
+* `sum(amount[state == 'Approved'])` looks at the amount column and gets all the values that were approved and then it is all added by sum()
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+library(tidyr) # Needed for pivot_wider
+
+# access your data
+head(transactions)
+
+transactions$transaction_date_format <- as.Date(transactions$transaction_date, format='%m/%d/%Y')
+transactions$Country <- transactions$country
+
+transactions %>%
+mutate(Months = format(transaction_date_format, '%m')) %>%
+group_by(Months, Country) %>%
+summarise(
+  Approved_Transactions = sum(state == 'Approved'),
+  Approved_Amount = sum(amount[state == 'Approved']),
+  Chargebacks = sum(state != 'Approved'),
+  Chargeback_Amount = sum(amount[state != 'Approved'])
+          ) %>%
+arrange(Months)
+```
+
+
+## Python
+
+```
+
+```
+
+## MySQL
+
+```
+
 ```
