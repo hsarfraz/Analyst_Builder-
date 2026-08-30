@@ -53,6 +53,17 @@ ORDER BY national_debt DESC
 LIMIT 3;
 ```
 
+# PostgresSQL
+
+* when using `ROUND()` it is important that the value inputting inside it is numeric
+
+```
+SELECT
+ROUND((right_vote / (right_vote + left_vote))::numeric * 100, 2) AS Right_Twix_Percentage,
+ROUND((left_vote / (right_vote + left_vote))::numeric * 100, 2)  AS Left_Twix_Percentage
+FROM candy_poll;
+```
+
 # MSSQL
 
 ```
