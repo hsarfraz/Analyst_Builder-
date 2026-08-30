@@ -187,6 +187,7 @@ WHERE CAST(check_out AS time) > '10:00:00';
 * `format(day_walked_format, "%w")` looks at the date and gives it a number which represents the day of the week with Sunday being 0 and Saturday being 6
 * `weeks_numbered = as.integer(format(day_walked_format, "%w"))` The logic behind this code is that the dates are being "reset" to the beginning of it's respective week. For example, if the date is Saturday then the date minus 6 would change the date to the start of the week.
 * `any()` checks if at least one of the values are true. If one of the values is true then the 'Bad Owner" label would be given
+* if you are not using summarise() you would need to pipe and add `%>% ungroup() %>%` to ungroup
 
 ```
 library(dplyr)
