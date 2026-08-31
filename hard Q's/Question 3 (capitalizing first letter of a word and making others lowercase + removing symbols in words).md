@@ -125,6 +125,13 @@ df.loc[:,['first_name', 'last_name', 'email_copy']].sort_values(by='email_copy',
 
 ## MySQL
 
-```
+* `LOWER(CONCAT(first_name, '.', last_name, '@gmail.com'))`
 
+```
+SELECT first_name, last_name,
+CASE WHEN (email IS NULL) THEN LOWER(CONCAT(first_name, '.', last_name, '@gmail.com')) ELSE email END AS email_copy
+FROM contacts dfc
+LEFT JOIN people dfp 
+ON dfc.id = dfp.id
+ORDER BY email_copy ASC;
 ```
