@@ -87,7 +87,36 @@ arrange(Months)
 ## Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np;
 
+transactions.head()
+
+transactions['transaction_date_format'] = pd.to_datetime(transactions['transaction_date'], format='%m/%d/%Y')
+
+transactions['Month'] = transactions['transaction_date_format'].dt.month
+
+# old column name, new column name
+transactions = transactions.rename(columns = {'country' : 'Country'})
+
+transactions['Approved_Transactions'] = np.where(transactions['state'] == 'Approved', 1, 0)
+
+transactions['Approved_Amount'] = np.where(transactions['state'] == 'Approved', transactions['amount'],  0)
+
+transactions['Chargebacks'] = np.where(transactions['state'] != 'Approved', 1, 0)
+
+transactions['Chargeback_Amount'] = np.where(transactions['state'] != 'Approved', transactions['amount'],  0)
+
+
+transactions
+
+transactions.groupby(['Month', 'Country']).agg(
+  Approved_Transactions = ('Approved_Transactions', 'sum'),
+  Approved_Amount = ('Approved_Amount', 'sum'),
+  Chargebacks = ('Chargebacks', 'sum'),
+  Chargeback_Amount = ('Chargeback_Amount', 'sum')
+).reset_index()
 ```
 
 ## MySQL
