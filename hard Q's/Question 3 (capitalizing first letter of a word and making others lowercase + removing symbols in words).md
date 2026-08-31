@@ -100,7 +100,25 @@ arrange(email_copy)
 ## Python
 
 ```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np;
 
+contacts.head()
+
+df = pd.merge(
+  contacts,
+  people,
+  how='left',
+  left_on='id',
+  right_on='id'
+)
+
+df['email_copy'] = np.where(df['email'].isna(),
+                            (df['first_name'] + '.' + df['last_name'] + '@gmail.com').str.lower(),
+                            df['email'])
+
+df.loc[:,['first_name', 'last_name', 'email_copy']].sort_values(by='email_copy', ascending=True)
 ```
 
 ## MySQL
