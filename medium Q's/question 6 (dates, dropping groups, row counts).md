@@ -4,6 +4,7 @@
 * [extracting date and time](#extracting-date-and-time)
 * [Using group by and dropping groups to extract values based on one week intervals using dates](#using-group-by-and-dropping-groups-to-extract-values-based-on-one-week-intervals-using-dates)
 * [subtracting dates and counting rows](#subtracting-dates-and-counting-rows)
+* [extracting month from dates](#extracting-month-from-dates)
 
 ## Converting Dates
 
@@ -408,4 +409,109 @@ WHERE (DATEDIFF(DAY, visit_date, visit_date_y)) >= 0
   AND (DATEDIFF(DAY, visit_date, visit_date_y)) <=5
   AND (receipt_id != receipt_id_y)
 GROUP BY customer_id;
+```
+
+## extracting month from dates
+
+* [table of contents](#table-of-contents)
+
+## R
+
+* `mutate(Months = format(transaction_date_format, '%m'))`
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+library(tidyr) # Needed for pivot_wider
+
+# access your data
+head(transactions)
+
+transactions$transaction_date_format <- as.Date(transactions$transaction_date, format='%m/%d/%Y')
+
+transactions %>%
+rename(Country = country) %>% # new column name, old column name
+mutate(Months = format(transaction_date_format, '%m')) %>%
+group_by(Months, Country) %>%
+summarise(
+  Approved_Transactions = sum(state == 'Approved'),
+  Approved_Amount = sum(amount[state == 'Approved']),
+  Chargebacks = sum(state != 'Approved'),
+  Chargeback_Amount = sum(amount[state != 'Approved'])
+          ) %>%
+arrange(Months)
+
+
+```
+
+## Python
+
+* `transactions['Month'] = transactions['transaction_date_format'].dt.month`
+
+```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np;
+
+transactions.head()
+
+transactions['transaction_date_format'] = pd.to_datetime(transactions['transaction_date'], format='%m/%d/%Y')
+
+transactions['Month'] = transactions['transaction_date_format'].dt.month
+
+# old column name, new column name
+transactions = transactions.rename(columns = {'country' : 'Country'})
+
+transactions['Approved_Transactions'] = np.where(transactions['state'] == 'Approved', 1, 0)
+
+transactions['Approved_Amount'] = np.where(transactions['state'] == 'Approved', transactions['amount'],  0)
+
+transactions['Chargebacks'] = np.where(transactions['state'] != 'Approved', 1, 0)
+
+transactions['Chargeback_Amount'] = np.where(transactions['state'] != 'Approved', transactions['amount'],  0)
+
+
+transactions
+
+transactions.groupby(['Month', 'Country']).agg(
+  Approved_Transactions = ('Approved_Transactions', 'sum'),
+  Approved_Amount = ('Approved_Amount', 'sum'),
+  Chargebacks = ('Chargebacks', 'sum'),
+  Chargeback_Amount = ('Chargeback_Amount', 'sum')
+).reset_index()
+
+```
+
+## MySQL and MSSQL
+
+* `MONTH(transaction_date) AS Month`
+
+```
+SELECT 
+  MONTH(transaction_date) AS Month,
+  country AS Country,
+  SUM(CASE WHEN state = 'Approved' THEN 1 ELSE 0 END) AS Approved_Transactions,
+  SUM(CASE WHEN state = 'Approved' THEN amount ELSE 0 END) AS Approved_Amount,
+  SUM(CASE WHEN state != 'Approved' THEN 1 ELSE 0 END) AS Chargebacks,
+  SUM(CASE WHEN state != 'Approved' THEN amount ELSE 0 END) AS Chargeback_Amount
+FROM transactions
+GROUP BY MONTH(transaction_date), country
+ORDER BY Month ASC;
+```
+
+## PostgresSQL
+
+* `EXTRACT(MONTH FROM transaction_date) AS Month`
+
+```
+SELECT 
+  EXTRACT(MONTH FROM transaction_date) AS Month,
+  country AS Country,
+  SUM(CASE WHEN state = 'Approved' THEN 1 ELSE 0 END) AS Approved_Transactions,
+  SUM(CASE WHEN state = 'Approved' THEN amount ELSE 0 END) AS Approved_Amount,
+  SUM(CASE WHEN state != 'Approved' THEN 1 ELSE 0 END) AS Chargebacks,
+  SUM(CASE WHEN state != 'Approved' THEN amount ELSE 0 END) AS Chargeback_Amount
+FROM transactions
+GROUP BY EXTRACT(MONTH FROM transaction_date), country
+ORDER BY Month ASC;
 ```
