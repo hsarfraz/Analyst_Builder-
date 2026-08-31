@@ -99,6 +99,8 @@ arrange(email_copy)
 
 ## Python
 
+* `(df['first_name'] + '.' + df['last_name'] + '@gmail.com').str.lower()`
+
 ```
 # access datasets as pandas dataframes
 import pandas as pd
