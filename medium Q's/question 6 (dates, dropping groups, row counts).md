@@ -3,7 +3,7 @@
 * [converting dates](#converting-dates)
 * [extracting date and time](#extracting-date-and-time)
 * [Using group by and dropping groups to extract values based on one week intervals using dates](#using-group-by-and-dropping-groups-to-extract-values-based-on-one-week-intervals-using-dates)
-* [subtracting dates and counting rows](#subtracting-dates-and-counting-rows)
+* [subtracting dates and counting rows when ids are repeated multiple times](#subtracting-dates-and-counting-rows)
 * [extracting month from dates](#extracting-month-from-dates)
 
 ## Converting Dates
@@ -318,9 +318,11 @@ ORDER BY owner_name;
 
 ```
 
-## subtracting dates and counting rows
+## subtracting dates and counting rows 
 
 * [table of contents](#table-of-contents)
+
+The inner join in this question only works because customer id is repeated many times in the column. So in this scenario the inner join conbines the different combination of dates
 
 ## R
 
