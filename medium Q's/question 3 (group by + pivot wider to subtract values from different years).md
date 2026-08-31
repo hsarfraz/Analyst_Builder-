@@ -119,8 +119,32 @@ transactions.groupby(['Month', 'Country']).agg(
 ).reset_index()
 ```
 
-## MySQL
+## MySQL and MSSQL
 
 ```
+SELECT 
+  MONTH(transaction_date) AS Month,
+  country AS Country,
+  SUM(CASE WHEN state = 'Approved' THEN 1 ELSE 0 END) AS Approved_Transactions,
+  SUM(CASE WHEN state = 'Approved' THEN amount ELSE 0 END) AS Approved_Amount,
+  SUM(CASE WHEN state != 'Approved' THEN 1 ELSE 0 END) AS Chargebacks,
+  SUM(CASE WHEN state != 'Approved' THEN amount ELSE 0 END) AS Chargeback_Amount
+FROM transactions
+GROUP BY MONTH(transaction_date), country
+ORDER BY Month ASC;
+```
 
+## PostgresSQL
+
+```
+SELECT 
+  EXTRACT(MONTH FROM transaction_date) AS Month,
+  country AS Country,
+  SUM(CASE WHEN state = 'Approved' THEN 1 ELSE 0 END) AS Approved_Transactions,
+  SUM(CASE WHEN state = 'Approved' THEN amount ELSE 0 END) AS Approved_Amount,
+  SUM(CASE WHEN state != 'Approved' THEN 1 ELSE 0 END) AS Chargebacks,
+  SUM(CASE WHEN state != 'Approved' THEN amount ELSE 0 END) AS Chargeback_Amount
+FROM transactions
+GROUP BY EXTRACT(MONTH FROM transaction_date), country
+ORDER BY Month ASC;
 ```
