@@ -5,6 +5,7 @@
 * [Using group by and dropping groups to extract values based on one week intervals using dates](#using-group-by-and-dropping-groups-to-extract-values-based-on-one-week-intervals-using-dates)
 * [subtracting dates and counting rows when ids are repeated multiple times](#subtracting-dates-and-counting-rows)
 * [extracting month from dates](#extracting-month-from-dates)
+* [subtracting a date by one day](#subtracting-a-date-by-one-day)
 
 ## Converting Dates
 
@@ -516,4 +517,117 @@ SELECT
 FROM transactions
 GROUP BY EXTRACT(MONTH FROM transaction_date), country
 ORDER BY Month ASC;
+```
+
+## subtracting a date by one day
+
+* [table of contents](#table-of-contents)
+
+## R
+
+* `mutate(yesterday = date_format - 1)`
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+
+# access your data
+head(temperatures)
+
+temperatures$date_format <- as.Date(temperatures$date, format = '%Y-%m-%d')
+
+temperatures %>%
+mutate(yesterday = date_format - 1) %>%
+left_join(
+  .,
+  temperatures,
+  by = c('yesterday' = 'date_format')
+) %>%
+mutate(
+  temp_diff = temperature.x - temperature.y
+) %>%
+filter(temp_diff > 0) %>%
+arrange(date_format) %>%
+select(date.x)
+```
+
+## Python
+
+* `temperatures['diff'] = temperatures['date_format'] - pd.Timedelta(days=1)`
+
+```
+import pandas as pd
+
+temperatures.head()
+
+temperatures['date_format'] = pd.to_datetime(temperatures['date'], format = '%Y-%m-%d')
+
+temperatures['diff'] = temperatures['date_format'] - pd.Timedelta(days=1)
+
+df = pd.merge(
+  temperatures,
+  temperatures,
+  how ='left',
+  left_on='diff',
+  right_on='date_format'
+)
+
+df['difference'] = df['temperature_x'] - df['temperature_y']
+df = df.loc[df['difference'] > 0, :].sort_values(by='date_format_x', ascending=True)
+df.loc[:,['date_x']]
+
+```
+
+## MySQL
+
+* `DATE_SUB(date, INTERVAL 1 DAY) AS diff`
+
+```
+WITH df AS(SELECT *,
+    DATE_SUB(date, INTERVAL 1 DAY) AS diff,
+  temperature AS current_temp
+FROM temperatures)
+  
+SELECT df.date 
+FROM df df 
+LEFT JOIN temperatures dft 
+ON df.diff = dft.date
+WHERE (df.current_temp - dft.temperature) > 0
+ORDER BY df.date ASC;
+```
+
+## PostgresSQL
+
+* `date - INTERVAL '1 day' AS diff`
+
+```
+WITH df AS(SELECT *,
+    date - INTERVAL '1 day' AS diff,
+  temperature AS current_temp
+FROM temperatures)
+  
+SELECT df.date 
+FROM df df 
+LEFT JOIN temperatures dft 
+ON df.diff = dft.date
+WHERE (df.current_temp - dft.temperature) > 0
+ORDER BY df.date ASC;
+```
+
+## MSSQL
+
+* `DATEADD(day, -1, date) AS diff`
+
+```
+WITH df AS(SELECT *,
+    DATEADD(day, -1, date) AS diff,
+  temperature AS current_temp
+FROM temperatures)
+  
+SELECT df.date 
+FROM df df 
+LEFT JOIN temperatures dft 
+ON df.diff = dft.date
+WHERE (df.current_temp - dft.temperature) > 0
+ORDER BY df.date ASC;
 ```
