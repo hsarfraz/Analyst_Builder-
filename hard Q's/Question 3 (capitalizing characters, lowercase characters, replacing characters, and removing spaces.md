@@ -2,6 +2,11 @@
 
 * [capitalizing first letter of a word and making others lowercases and removing symbols in words](#capitalizing-first-letter-of-a-word-and-making-others-lowercases-and-removing-symbols-in-words)
 * [making all characters lowercase](#making-all-characters-lowercase)
+* [replacing individual characters]()
+
+removing spaces
+
+* [removing start and end spaces from all columns](#removing-start-and-end-spaces-from-all-columns)
 
 
 ## capitalizing first letter of a word and making others lowercases and removing symbols in words
@@ -134,4 +139,77 @@ FROM contacts dfc
 LEFT JOIN people dfp 
 ON dfc.id = dfp.id
 ORDER BY email_copy ASC;
+```
+
+## removing start and end spaces from all columns
+
+* [table of contents](#table-of-contents)
+
+## R
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+library(tidyr)
+
+# access your data
+head(addresses)
+
+addresses %>%
+separate_wider_delim(
+  cols = address,
+  delim = '-',
+  names = c('street', 'city', 'state', 'zip_code')) %>%
+  mutate(
+    across(everything(), trimws)
+  )
+```
+
+## Python
+
+```
+# access datasets as pandas dataframes
+import pandas as pd;
+
+addresses.head()
+
+addresses[['street', 'city', 'state', 'zip_code']] = (
+    addresses['address'].str.split('-', expand=True)
+    .apply(lambda col: col.str.strip())
+)
+
+addresses.loc[:,['street', 'city', 'state', 'zip_code']]
+```
+
+## MySQL
+
+```
+SELECT
+    TRIM(SUBSTRING_INDEX(address, '-', 1)) AS street,
+    TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(address, '-', 2), '-', -1)) AS city,
+    TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(address, '-', 3), '-', -1)) AS state,
+    TRIM(SUBSTRING_INDEX(address, '-', -1)) AS zip_code
+FROM addresses;
+```
+
+## PostgresSQL
+
+```
+SELECT
+    TRIM(SPLIT_PART(address, '-', 1)) AS street,
+    TRIM(SPLIT_PART(address, '-', 2)) AS city,
+    TRIM(SPLIT_PART(address, '-', 3)) AS state,
+    TRIM(SPLIT_PART(address, '-', 4)) AS zip_code
+FROM addresses;
+```
+
+## MSSQL
+
+```
+SELECT
+    LTRIM(RTRIM(PARSENAME(REPLACE(address, '-', '.'), 4))) AS street,
+    LTRIM(RTRIM(PARSENAME(REPLACE(address, '-', '.'), 3))) AS city,
+    LTRIM(RTRIM(PARSENAME(REPLACE(address, '-', '.'), 2))) AS state,
+    LTRIM(RTRIM(PARSENAME(REPLACE(address, '-', '.'), 1))) AS zip_code
+FROM addresses;
 ```
