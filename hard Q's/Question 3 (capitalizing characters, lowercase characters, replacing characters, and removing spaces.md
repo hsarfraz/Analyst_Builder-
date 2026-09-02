@@ -1,7 +1,12 @@
 # Table of Contents
 
+**lower/uppercase**
+
 * [capitalizing first letter of a word and making others lowercases and removing symbols in words](#capitalizing-first-letter-of-a-word-and-making-others-lowercases-and-removing-symbols-in-words)
 * [making all characters lowercase](#making-all-characters-lowercase)
+
+**replacing characters**
+
 * [replacing individual characters](#replacing-individual-characters)
 
 **removing spaces**
