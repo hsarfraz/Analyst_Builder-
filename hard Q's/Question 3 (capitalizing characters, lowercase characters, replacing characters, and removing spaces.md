@@ -44,7 +44,7 @@ janines_mistakes['product_name'] = janines_mistakes['product_name'].str.replace(
 janines_mistakes
 ```
 
-## MySQL
+## MySQL and postgresSQL
 
 * LEFT takes all the characters that are to the left of the specified index
 * SUBSTRING takes all the characters that are to the right of the specified index
@@ -83,6 +83,11 @@ SELECT
     amount_sold
 FROM df;
 ```
+
+## Microsoft Excel
+
+* `PROPER()`
+
 
 ## making all characters lowercase
 
