@@ -4,7 +4,7 @@
 * [making all characters lowercase](#making-all-characters-lowercase)
 * [replacing individual characters]()
 
-<u>**removing spaces**<\u>
+<u>**removing spaces**</u>
 
 * [removing start and end spaces from all columns](#removing-start-and-end-spaces-from-all-columns)
 
