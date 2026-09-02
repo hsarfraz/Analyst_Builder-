@@ -2,7 +2,8 @@
 
 * [groupby and summarise](#groupby-and-summarise)
 * [highest value in groupby and selecting rows and rounding row values](#highest-value-in-groupby-and-selecting-rows-and-rounding-row-values)
-, highest value in groupby, using groupby to create groups of 4
+* 
+ using groupby to create groups of 4
 
 * [row counts of groups](#row-counts-of-groups)
 * [removing duplicate rows then doing row counts](#removing-duplicate-rows-then-doing-row-counts)
