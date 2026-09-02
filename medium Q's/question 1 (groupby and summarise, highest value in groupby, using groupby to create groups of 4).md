@@ -11,6 +11,8 @@
 
 # groupby and summarise
 
+* [table of contents](#table-of-contents)
+
 James is a Help Desk Manager in their IT Department. He wants to know the resolution rates for each of his employees.
 
 Each call the help desk receives is either marked as "Y" for resolved or "N" for not resolved.
@@ -124,6 +126,8 @@ ORDER BY employee_name ASC;
 ```
 
 # highest value in groupby and selecting rows and rounding row values
+
+* [table of contents](#table-of-contents)
 
 *  Question [link](https://www.analystbuilder.com/questions/biggest-country-debts-FVIGT)
 
