@@ -210,6 +210,18 @@ ORDER BY national_debt DESC;
 
 This question gets weeks and puts then in groups of four to calculate the total customer count for every four weeks.  
 
+| week | group_category |
+|------|----------------|
+| 1    | 0              |
+| 2    | 0              |
+| 3    | 0              |
+| 4    | 0              |
+| 5    | 1              |
+| 6    | 1              |
+| 7    | 1              |
+| 8    | 1              |
+| 9    | 2              |
+
 ## R
 
 ```
