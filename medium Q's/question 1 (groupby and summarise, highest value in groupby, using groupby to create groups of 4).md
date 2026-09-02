@@ -3,7 +3,7 @@
 * [groupby and summarise](#groupby-and-summarise)
 * [highest value in groupby and selecting rows and rounding row values](#highest-value-in-groupby-and-selecting-rows-and-rounding-row-values)
 * [creating a column to groupby rows in groups of four and rounding down](#creating-a-column-to-groupby-rows-in-groups-of-four-and-rounding-down)
- using groupby to create groups of 4
+ 
 
 # groupby and summarise
 
