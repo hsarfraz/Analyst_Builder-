@@ -138,7 +138,7 @@ df['email_copy'] = np.where(df['email'].isna(),
 df.loc[:,['first_name', 'last_name', 'email_copy']].sort_values(by='email_copy', ascending=True)
 ```
 
-## MySQL
+## MySQL, postgresSQL, and MSSQL
 
 * `LOWER(CONCAT(first_name, '.', last_name, '@gmail.com'))`
 
@@ -150,6 +150,10 @@ LEFT JOIN people dfp
 ON dfc.id = dfp.id
 ORDER BY email_copy ASC;
 ```
+
+## Microsoft Excel
+
+* `LOWER()`
 
 ## replacing individual characters
 
@@ -355,3 +359,7 @@ SELECT
     LTRIM(RTRIM(PARSENAME(REPLACE(address, '-', '.'), 1))) AS zip_code
 FROM addresses;
 ```
+
+## Microsoft Excel
+
+* `TRIM()`
