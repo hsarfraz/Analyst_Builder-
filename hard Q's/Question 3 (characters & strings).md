@@ -12,7 +12,7 @@
 **removing spaces**
 
 * [removing start and end spaces from all columns](#removing-start-and-end-spaces-from-all-columns)
-* [removing start, end, and trailing/middle spaces from select columns](#removing-start,-end,-and-trailing/middle-spaces-from-select-columns)
+* [removing start, end, and trailing/middle spaces from select columns](#removing-start-end-and-trailingmiddle-spaces-from-select-columns)
 
 
 # capitalizing first letter of a word and making others lowercases and removing symbols in words
