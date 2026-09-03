@@ -12,6 +12,7 @@
 **removing spaces**
 
 * [removing start and end spaces from all columns](#removing-start-and-end-spaces-from-all-columns)
+* [removing start, end, and trailing/middle spaces from select columns](#removing-start,-end,-and-trailing/middle-spaces-from-select-columns)
 
 
 # capitalizing first letter of a word and making others lowercases and removing symbols in words
@@ -285,6 +286,69 @@ SELECT job_id, job_title, job_salary, required_skills
 FROM df_copy
 WHERE starting_salary > 85000 AND position = 1 AND skill = 1
 ORDER BY job_id ASC;
+```
+
+# removing start, end, and trailing/middle spaces from select columns
+
+* [table of contents](#table-of-contents)
+
+## R
+
+* `str_squish(store_name)` removes leading and trailing spaces. In other words, it removes the spaces at the start of the word, end of the word, and any spaces in the middle of the word but makes sure there is at least one space in the middle of the word.
+* `first(clean_column)` is useful to get the first value of a column
+
+```
+# You can load libraries like dplyr if needed
+library(dplyr)
+library(stringr)
+
+# access your data
+head(return_data)
+
+return_data %>%
+mutate(clean_column = str_squish(store_name), #removed leading and trailing spaces and repeating spaces within the name
+       standard_column = str_replace_all(clean_column, '[[:punct:]]' ,''),
+       standard_column = tolower(standard_column),
+      standard_column = gsub(" ", "", standard_column, fixed = TRUE)
+      ) %>%
+group_by(clean_column, standard_column) %>%
+summarise(totals = sum(returns),
+         name_counts = n(),
+         .groups = 'drop') %>%
+group_by(standard_column) %>%
+arrange(desc(name_counts)) %>%
+mutate(clean_column = ifelse(max(name_counts) == name_counts,
+                             clean_column,
+                             first(clean_column) #this gets the first value in a column
+                            )
+      ) %>%
+group_by(clean_column) %>%
+summarise(totals = sum(totals)) %>%
+arrange(desc(totals))
+```
+
+## Python
+
+```
+
+```
+
+## MySQL
+
+```
+
+```
+
+## PostgresSQL
+
+```
+
+```
+
+## MSSQL
+
+```
+
 ```
 
 # removing start and end spaces from all columns
