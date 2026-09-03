@@ -14,7 +14,7 @@
 * [removing start and end spaces from all columns](#removing-start-and-end-spaces-from-all-columns)
 
 
-## capitalizing first letter of a word and making others lowercases and removing symbols in words
+# capitalizing first letter of a word and making others lowercases and removing symbols in words
 
 * [table of contents](#table-of-contents)
 
@@ -89,7 +89,7 @@ FROM df;
 * `PROPER()`
 
 
-## making all characters lowercase
+# making all characters lowercase
 
 * [table of contents](#table-of-contents)
 
@@ -155,7 +155,7 @@ ORDER BY email_copy ASC;
 
 * `LOWER()`
 
-## replacing individual characters
+# replacing individual characters
 
 * [table of contents](#table-of-contents)
 
@@ -287,7 +287,7 @@ WHERE starting_salary > 85000 AND position = 1 AND skill = 1
 ORDER BY job_id ASC;
 ```
 
-## removing start and end spaces from all columns
+# removing start and end spaces from all columns
 
 * [table of contents](#table-of-contents)
 
