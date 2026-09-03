@@ -99,3 +99,8 @@ LIMIT 1
 * **second argument**: now go to the other table which contains all the information that you want to extract and select the whole table. To select the whole table select all the table columns and then press `shift + ctrl + down arrow`
 * **third argument**: Now you need to specify the column that you are referencing from the other table that we just selected in the second argument. excel numbers columns starting from 1 so count the very first column (from left to right) will be given the number 1 and as you move to the right the numbering increases.
 * `=IFNA(VLOOKUP(B6,Catalogue!A1:C85,2), "not found")` use this to deal with NA values in a VLOOKUP
+
+some limitations of VLOOKUP
+
+* Duplication: If the secondary table has multiple matches for a single key, a SQL Left Join duplicates the original row to show every match. VLOOKUP only stops at the first match it finds and ignores the rest.
+* Column Direction: VLOOKUP strictly requires the matching key to be in the very first column of your lookup array. A SQL Left Join can link tables using columns in any position.
