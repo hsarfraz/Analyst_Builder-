@@ -91,3 +91,10 @@ LIMIT 1
 ;
 
 ```
+
+# excel
+
+* `=VLOOKUP(B6,Catalogue!A1:C85,2)`
+* **first argument**: select the id number of the original dataset where you want to perform the join
+* **second argument**: now go to the other table which contains all the information that you want to extract and select the whole table. To select the whole table select all the table columns and then press `shift + ctrl + down arrow`
+* **third argument**: Now you need to specify the column that you are referencing from the other table that we just selected in the second argument. excel numbers columns starting from 1 so count the very first column (from left to right) will be given the number 1 and as you move to the right the numbering increases. 
