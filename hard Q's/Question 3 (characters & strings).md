@@ -373,6 +373,9 @@ df.loc[:,['clean_column', 'total_returns']].sort_values(by='total_returns', asce
 
 ## MySQL
 
+* `TRIM()` removes spaces at the start and end of the word
+* `REGEXP_REPLACE(store_name, '[[:space:]]+', ' ')` removes the repeated spaces in the middle
+
 ```
 
 ```
