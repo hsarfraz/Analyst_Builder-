@@ -410,8 +410,7 @@ SELECT *,
  SUM(returns) AS total_returns,
  COUNT(*) AS counts
 FROM df 
-GROUP BY clean_column, standard_column
-ORDER BY counts DESC),
+GROUP BY clean_column, standard_column),
   df3 AS( 
 SELECT *,
   CASE WHEN (MAX(counts) OVER (PARTITION BY standard_column)) = counts 
@@ -456,8 +455,7 @@ SELECT clean_column, standard_column,
  SUM(returns) AS total_returns,
  COUNT(*) AS counts
 FROM df 
-GROUP BY clean_column, standard_column
-ORDER BY counts DESC),
+GROUP BY clean_column, standard_column),
   df3 AS( 
 SELECT *,
   CASE WHEN counts = (MAX(counts) OVER (PARTITION BY standard_column))  
