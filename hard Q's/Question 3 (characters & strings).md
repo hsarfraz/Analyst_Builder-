@@ -329,8 +329,46 @@ arrange(desc(totals))
 
 ## Python
 
-```
+* ``
 
+```
+# access datasets as pandas dataframes
+import pandas as pd
+import numpy as np;
+
+return_data.head()
+
+return_data['clean_column'] = (
+  return_data['store_name']
+  .str.replace(r"\s+", " ", regex=True) #removes middle space
+  .str.strip() #removes start and end spaces
+)
+
+
+return_data['standard_column'] = (
+  return_data['store_name']
+  .str.replace(r'[^a-zA-Z]', '', regex=True) #removes all punctuation including spaces
+  .str.lower() #lowers all characters
+)
+
+df = return_data.groupby(['clean_column', 'standard_column']).agg(
+  total_returns = ('returns', 'sum'),
+  row_counts = ('returns', 'size')
+).reset_index()
+
+df = df.loc[:,:].sort_values(by=['standard_column', 'row_counts'] , ascending=[True, False]) #ordering the standard columns into one group then sorting the row counts 
+
+df['clean_column'] = np.where(
+  df.groupby('standard_column')['row_counts'].transform('max') == df['row_counts'], #gets the max number in the groupby and compares it
+  df['clean_column'],
+  df.groupby('standard_column')['clean_column'].transform('first')
+)
+
+df = df.groupby('clean_column').agg(
+  total_returns = ('total_returns', 'sum')
+  ).reset_index()
+
+df.loc[:,['clean_column', 'total_returns']].sort_values(by='total_returns', ascending=False)
 ```
 
 ## MySQL
