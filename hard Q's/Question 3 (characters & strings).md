@@ -414,7 +414,7 @@ GROUP BY clean_column, standard_column
 ORDER BY counts DESC),
   df3 AS( 
 SELECT *,
-  CASE WHEN (MAX(total_returns) OVER (PARTITION BY standard_column)) = total_returns 
+  CASE WHEN (MAX(counts) OVER (PARTITION BY standard_column)) = counts 
   THEN clean_column 
   ELSE FIRST_VALUE(clean_column) OVER (PARTITION BY standard_column ORDER BY counts DESC) END AS official_clean_names
 FROM df2
@@ -430,7 +430,47 @@ ORDER BY final_total DESC;
 ## PostgresSQL
 
 ```
-
+WITH df AS(
+SELECT *,
+ TRIM(
+        REGEXP_REPLACE(
+            store_name,
+            '[[:space:]]+',
+            ' ',
+            'g'
+        )
+  ) AS clean_column,
+  
+ LOWER(
+  TRIM(
+    REGEXP_REPLACE(
+        store_name,
+        '[^[:alpha:]]',
+        '',
+        'g'
+    )
+  )) AS standard_column 
+FROM return_data), 
+  df2 AS( 
+SELECT clean_column, standard_column,
+ SUM(returns) AS total_returns,
+ COUNT(*) AS counts
+FROM df 
+GROUP BY clean_column, standard_column
+ORDER BY counts DESC),
+  df3 AS( 
+SELECT *,
+  CASE WHEN counts = (MAX(counts) OVER (PARTITION BY standard_column))  
+  THEN clean_column 
+  ELSE FIRST_VALUE(clean_column) OVER (PARTITION BY standard_column ORDER BY counts DESC) END AS official_clean_names
+FROM df2
+  )
+  
+SELECT official_clean_names,
+  SUM(total_returns) AS final_total
+FROM df3
+GROUP BY official_clean_names
+ORDER BY final_total DESC;
 ```
 
 ## MSSQL
