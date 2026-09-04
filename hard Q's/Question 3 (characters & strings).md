@@ -420,7 +420,7 @@ SELECT *,
 FROM df2
   )
   
-SELECT clean_column,
+SELECT official_clean_names,
   SUM(total_returns) AS final_total
 FROM df3
 GROUP BY official_clean_names
