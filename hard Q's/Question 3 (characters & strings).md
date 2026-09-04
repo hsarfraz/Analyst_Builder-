@@ -329,7 +329,16 @@ arrange(desc(totals))
 
 ## Python
 
-* ``
+* `return_data['store_name'].str.replace(r"\s+", " ", regex=True)` removes the middle space
+* `return_data['store_name'].str.strip())` removes the spaces at the start and end
+* `return_data['store_name'].str.replace(r'[^a-zA-Z]', '', regex=True)` removes all punctuation including spaces
+* `return_data['store_name'].str.lower()', '')` lowers down all characters
+
+using group by to extract the name with the most counts
+
+* `df.loc[:,:].sort_values(by=['standard_column', 'row_counts'] , ascending=[True, False])` orders the standard columns into one group and then sorts the row counts in desending order for each group. we are setting the base for the group by which will be used to extract the name with the most counts. 
+* `df.groupby('standard_column')['row_counts'].transform('max')` gets the max number in the groupby
+*  `df.groupby('standard_column')['clean_column'].transform('first')` gets the first value in the column which has been previously sorted
 
 ```
 # access datasets as pandas dataframes
