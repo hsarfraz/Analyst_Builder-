@@ -361,7 +361,7 @@ df = df.loc[:,:].sort_values(by=['standard_column', 'row_counts'] , ascending=[T
 df['clean_column'] = np.where(
   df.groupby('standard_column')['row_counts'].transform('max') == df['row_counts'], #gets the max number in the groupby and compares it
   df['clean_column'],
-  df.groupby('standard_column')['clean_column'].transform('first')
+  df.groupby('standard_column')['clean_column'].transform('first') #gets the first value in the column (which has been previously sorted)
 )
 
 df = df.groupby('clean_column').agg(
