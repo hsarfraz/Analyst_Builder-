@@ -374,10 +374,48 @@ df.loc[:,['clean_column', 'total_returns']].sort_values(by='total_returns', asce
 ## MySQL
 
 * `TRIM()` removes spaces at the start and end of the word
-* `REGEXP_REPLACE(store_name, '[[:space:]]+', ' ')` removes the repeated spaces in the middle
+* `REGEXP_REPLACE(store_name, '[[:space:]]+', '')` removes the repeated spaces in the middle
+* `REGEXP_REPLACE(store_name, '[[:punct:]…]', '')` removes the punctuation
+*  `MAX(total_returns) OVER (PARTITION BY standard_column)` get's the max total returns amount in each group by done by the partition
+*  `FIRST_VALUE(clean_column) OVER (PARTITION BY standard_column ORDER BY counts DESC)` gets the first value in each group by done by the partition which has ordered the count values from greatest to least. This ensures that the highest value in the group by is selected
 
 ```
-
+WITH df AS(
+SELECT *,
+ TRIM(
+  REGEXP_REPLACE(
+  store_name,
+  '[[:space:]]+',
+  ' ')
+  ) AS clean_column,
+  
+ LOWER(
+  TRIM(
+  REGEXP_REPLACE(
+  REGEXP_REPLACE(store_name, '[[:punct:]…]', ''),
+  '[[:space:]]+', '')
+  )) AS standard_column 
+FROM return_data), 
+  df2 AS( 
+SELECT *,
+ SUM(returns) AS total_returns,
+ COUNT(*) AS counts
+FROM df 
+GROUP BY clean_column, standard_column
+ORDER BY counts DESC),
+  df3 AS( 
+SELECT *,
+  CASE WHEN (MAX(total_returns) OVER (PARTITION BY standard_column)) = total_returns 
+  THEN clean_column 
+  ELSE FIRST_VALUE(clean_column) OVER (PARTITION BY standard_column ORDER BY counts DESC) END AS official_clean_names
+FROM df2
+  )
+  
+SELECT clean_column,
+  SUM(total_returns) AS final_total
+FROM df3
+GROUP BY official_clean_names
+ORDER BY final_total DESC;
 ```
 
 ## PostgresSQL
