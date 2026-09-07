@@ -106,10 +106,7 @@ some limitations of VLOOKUP
 * Duplication: If the secondary table has multiple matches for a single key, a SQL Left Join duplicates the original row to show every match. VLOOKUP only stops at the first match it finds and ignores the rest.
 * Column Direction: VLOOKUP strictly requires the matching key to be in the very first column of your lookup array. A SQL Left Join can link tables using columns in any position.
 
-
-
-** Index functions: when you need to specify columns and headers to extract values **
-
+**Index functions: when you need to specify columns and headers to extract values**
 
 * `=INDEX('Financials USA'!$E$7:$N$19,MATCH(CONCAT('Input Data'!D2,'Input Data'!C2),'Financials USA'!$A$7:$A$19,0),MATCH('Input Data'!B2,'Financials USA'!$E$1:$N$1,0))`
 * **first argument**: pick the dataset values that you want to extract information from. You don't have to include rows and column labels here. It is like the vlookup array where you just highlight the values and select those
