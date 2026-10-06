@@ -1,0 +1,1 @@
+"I examined the class distribution before splitting the data and found significant class imbalance, including categories with only one or two observations. A standard stratified split was therefore not appropriate for every class, so I evaluated the class distribution and considered an appropriate strategy for rare categories."
